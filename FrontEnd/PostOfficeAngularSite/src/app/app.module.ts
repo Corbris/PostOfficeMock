@@ -52,7 +52,7 @@ import { MyPackagesComponent } from './my-packages/my-packages.component';
 import { RegisterComponent } from './register/register.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FindLocationComponent } from './find-location/find-location.component';
-import { ShopComponent } from './shop/shop.component';
+import { ShopComponent, ShoppingCartDialog } from './shop/shop.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { CreatePackageComponent } from './create-package/create-package.component';
 import { UpdateTrackingComponent } from './update-tracking/update-tracking.component';
@@ -85,7 +85,8 @@ import { RoleGuardService } from './_services/role-guard.service';
     UserLookupComponent,
     EmployeeLookupComponent,
     LocationEmployeesComponent,
-    LocationDashboardComponent
+    LocationDashboardComponent,
+    ShoppingCartDialog
   ],
   imports: [
     BrowserModule,
@@ -168,6 +169,7 @@ import { RoleGuardService } from './_services/role-guard.service';
     MatTreeModule,
     BrowserAnimationsModule
   ],
+  entryComponents: [ShoppingCartDialog],
   providers: [AuthService, APIService, RoleGuardService, HttpClientModule],
   bootstrap: [AppComponent]
 })

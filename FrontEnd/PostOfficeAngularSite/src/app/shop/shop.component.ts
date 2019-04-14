@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
 
 export interface Item {
   title: string;
@@ -13,8 +19,18 @@ export interface Item {
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
+  constructor(public dialog: MatDialog) {}
 
-  constructor() { }
+  openCart(): void {
+    const dialogRef = this.dialog.open(ShoppingCartDialog, {
+      width: '250px',
+      data: {name: "john", animal: "cat"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
   ngOnInit() {
   }
@@ -37,5 +53,21 @@ export class ShopComponent implements OnInit {
      image:       'assets/shop_images/box4.jpg',
      price:       '$500'},
   ];
+
+}
+
+@Component({
+  selector: 'shopping-cart-dialog',
+  templateUrl: './shopping-cart-dialog.html',
+})
+export class ShoppingCartDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<ShoppingCartDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
 }
