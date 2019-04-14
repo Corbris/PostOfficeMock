@@ -1,11 +1,22 @@
-<h1 mat-dialog-title>Hi {{data.name}}</h1>
+<h1 mat-dialog-title>Shopping Cart</h1>
 <div mat-dialog-content>
-  <p>What's your favorite animal?</p>
-  <mat-form-field>
-    <input matInput [(ngModel)]="data.animal">
-  </mat-form-field>
+  <mat-list>
+    <mat-list-item *ngFor="let cartItem of data">
+      <h3 mat-line>{{ cartItem.item.title}}</h3>
+      <p mat-line>
+        <span>{{cartItem.quantity}} Item(s)</span>
+      </p>
+      <!-- TODO: Multiply price by quantity -->
+      <div>${{cartItem.item.price}}</div>
+      <button mat-icon-button>
+        <mat-icon class="mat-18">remove</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="mat-18">add</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+  <button mat-flat-button color="primary" [mat-dialog-close]="" cdkFocusInitial>Order</button>
 </div>
