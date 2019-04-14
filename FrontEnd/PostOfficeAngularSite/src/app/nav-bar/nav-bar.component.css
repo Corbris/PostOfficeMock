@@ -4,13 +4,17 @@ nav {
 
 .logo-img {
   float: left;
-  height: 160px;
   padding: 0px;
   margin-left: 70px;
   margin-right: 5px;
   margin-top: -50px;
   display: inline-block;
   cursor: pointer;
+
+  object-fit: cover;
+  height: 100px;
+  width: 160px;
+  object-position: 100% 0;
 }
 
 ul {
