@@ -15,3 +15,7 @@ body {
 .mat-card {
   height: 100%;
 }
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+}

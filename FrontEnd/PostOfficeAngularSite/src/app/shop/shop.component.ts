@@ -1,10 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 export interface Item {
   title: string;
   description: string;
   image: string;
-  price: string;
+  price: number;
+}
+
+export interface CartItem {
+  item: Item;
+  quantity: number;
 }
 
 @Component({
@@ -13,29 +19,56 @@ export interface Item {
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(public dialog: MatDialog) {}
 
   items: Item[] = [
     {title:       'Thingamajig',
      description: 'it does something',
      image:       'assets/shop_images/box1.jpg',
-     price:       '$500'},
+     price:       500},
     {title:       'Foobar',
      description: 'it does something',
      image:       'assets/shop_images/box2.jpg',
-     price:       '$500'},
+     price:       500},
     {title:       'Placeholder',
      description: 'it does something',
      image:       'assets/shop_images/box3.jpg',
-     price:       '$500'},
+     price:       500},
     {title:       'Whocares',
      description: 'it does something',
      image:       'assets/shop_images/box4.jpg',
-     price:       '$500'},
+     price:       500},
   ];
+
+  openCart(): void {
+    const dialogRef = this.dialog.open(ShoppingCartDialog, {
+      width: '600px',
+      data: [{item: this.items[0], quantity: 1}]
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  ngOnInit() {
+  }
+
+}
+
+@Component({
+  selector: 'shopping-cart-dialog',
+  templateUrl: './shopping-cart-dialog.html',
+  styleUrls: ['./shop.component.css']
+})
+export class ShoppingCartDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<ShoppingCartDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: CartItem[]) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
 }
