@@ -1,4 +1,17 @@
-.container {
-  margin-left: 20px;
-  margin-right: 20px;
+body {
+  margin: auto;
+  margin-top: 30px;
+  width: 80%;
+  padding: 0px;
+}
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}
+
+.mat-card {
+  height: 100%;
 }
