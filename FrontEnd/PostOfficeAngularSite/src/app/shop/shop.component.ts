@@ -40,7 +40,7 @@ export class ShopComponent implements OnInit {
      price:       500},
   ];
 
-  cartItems: CartItem[] = [{}];
+  cartItems: CartItem[] = [];
 
   openCart(): void {
     const dialogRef = this.dialog.open(ShoppingCartDialog, {
