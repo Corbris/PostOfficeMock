@@ -108,4 +108,13 @@ router.get('/registerUserLogin', (req, res) => {
 });
 
 
+//customerFromID
+router.get('/customerFromID', (req, res) => {
+  console.log(req.query);
+  connection.query('SELECT * FROM Customer WHERE CustomerID = ?', [req.query.id], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
 module.exports = router;
