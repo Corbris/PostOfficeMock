@@ -9,16 +9,15 @@ import { APIService } from '../_services/api.service';
 })
 export class UserAccountComponent implements OnInit {
   userAccountForm: FormGroup;
-  name = "FFFFF";
-  InitCustomerData = [{ "CustomerID": 10001, "Fname": "Fname", "MInit": "M", "Lname": "Lname", "Email": "Email@gmail.com", "MobileNumber": "713-205-8901", "HouseNumber": "1622", "Street": "Conrad Sauer Dr.", "ZipCode": "77043", "City": "Houston", "State": "TX", "Country": "USA" }];
   CustomerData;
+  UserID = sessionStorage.getItem("ID");
+
+
   constructor(private formBuilder: FormBuilder, public api: APIService) { }
   
   ngOnInit() {
-
     this.api.customerFromID(sessionStorage.getItem("ID"))
       .subscribe((Data) => {
-        console.log(Data[0].Fname);
         this.CustomerData = Data[0];
         this.userAccountForm.controls.Fname.setValue(this.CustomerData.Fname);
         this.userAccountForm.controls.Mint.setValue(this.CustomerData.MInit);
@@ -45,12 +44,19 @@ export class UserAccountComponent implements OnInit {
         State: ['', Validators.compose([Validators.required])],
         Zip: ['', Validators.compose([Validators.required])]
       });
-
   }
 
 
-  submit() {
-    //update API. 
+  UpdateUser() {
+    //update API.
+    //customer & customer login page.
+    this.api.updateUser(this.userAccountForm.value.Fname, this.userAccountForm.value.Mint, this.userAccountForm.value.Lname, this.userAccountForm.value.Email, this.userAccountForm.value.PhoneNumber, this.userAccountForm.value.HouseNumber, this.userAccountForm.value.Street, this.userAccountForm.value.City, this.userAccountForm.value.State, this.userAccountForm.value.Zip, this.UserID)
+      .subscribe((res) => {
+        console.log(res);
+      });;
+    
+
+
   }
 
 
