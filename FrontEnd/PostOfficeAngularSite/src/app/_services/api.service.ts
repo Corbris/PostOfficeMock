@@ -65,6 +65,11 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/registerUserLogin', { params });
   }
 
+  //customer info from id
+  customerFromID(id: string): Observable<any> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get('http://localhost:3000/api/customerFromID', { params });
+  }
 
 
 

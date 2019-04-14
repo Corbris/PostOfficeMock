@@ -1,3 +1,45 @@
-<p>
-  user-account works!
-</p>
+<body>
+<h2>Account Details</h2>
+<br>
+
+<div class="container">
+  <form class="row" [formGroup]="userAccountForm" (ngSubmit)="submit()">
+
+    <div class="col-md-4">
+      <h3>Name</h3>
+      <p>First</p><input type="text" formControlName="Fname">
+      <p>middle initial</p><input type="text" formControlName="Mint">
+      <p>Last</p><input type="text" formControlName="Lname">
+    </div>
+
+
+    <div class="col-md-4">
+      <h3>Email & Phone</h3>
+      <p>Email</p><input type="text"  formControlName="Email">
+      <p>Phone</p><input type="text" formControlName="PhoneNumber">
+    </div>
+
+
+    <div class="col-md-4">
+      <h3>Address</h3>
+      <p>House number</p> <input type="text"  formControlName="HouseNumber">
+      <p>street</p><input type="text"  formControlName="Street">
+      <br>
+      <p>City</p><input type="text" formControlName="City">
+      <p>State initial</p><input type="text" formControlName="State">
+      <p>ZipCode</p><input type="text" formControlName="Zip">
+
+      <br>
+      <br>
+
+      <button type="submit">Save</button>
+      <button >Reset (fixME)</button>
+    </div>
+  </form>
+</div>
+</body>
+
+
+
+
+
