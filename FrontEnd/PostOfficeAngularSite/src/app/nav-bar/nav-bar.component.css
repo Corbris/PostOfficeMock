@@ -4,11 +4,11 @@ nav {
 
 .logo-img {
   float: left;
-  height: 30px;
+  height: 160px;
   padding: 0px;
   margin-left: 70px;
   margin-right: 5px;
-  margin-top: 12px;
+  margin-top: -50px;
   display: inline-block;
   cursor: pointer;
 }
@@ -19,7 +19,7 @@ ul {
   margin-right: 70px;
   padding: 0px;
   overflow: hidden;
-  background-color: #333;
+  background-color: rgb(208, 30, 54);
   line-height: 12px;
 }
 
