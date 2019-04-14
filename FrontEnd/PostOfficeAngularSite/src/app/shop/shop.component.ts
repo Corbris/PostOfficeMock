@@ -40,15 +40,32 @@ export class ShopComponent implements OnInit {
      price:       500},
   ];
 
+  cartItems: CartItem[] = [{}];
+
   openCart(): void {
     const dialogRef = this.dialog.open(ShoppingCartDialog, {
       width: '600px',
-      data: [{item: this.items[0], quantity: 1}]
+      data: this.cartItems
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe(
+      result => {console.log('The dialog was closed');});
+  }
+
+  addToCart(item: Item) {
+    var foundIndex;
+    let found = this.cartItems.some(
+      (element, index) => {
+        foundIndex = index;
+        return element.item.title == item.title;
+      });
+    if (!found) {
+      let itemToPutInCart: CartItem = {item: item, quantity: 1};
+      this.cartItems.push(itemToPutInCart);
+    } else {
+      this.cartItems[foundIndex].quantity += 1;
+    }
+    console.log(this.cartItems)
   }
 
   ngOnInit() {
@@ -62,7 +79,6 @@ export class ShopComponent implements OnInit {
   styleUrls: ['./shop.component.css']
 })
 export class ShoppingCartDialog {
-
   constructor(
     public dialogRef: MatDialogRef<ShoppingCartDialog>,
     @Inject(MAT_DIALOG_DATA) public data: CartItem[]) {}
