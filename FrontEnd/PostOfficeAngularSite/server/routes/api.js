@@ -117,4 +117,19 @@ router.get('/customerFromID', (req, res) => {
   });
 });
 
+//UpdateUser
+router.get('/updateUser', (req, res) => {
+  console.log(req.query);
+  connection.query('UPDATE Customer SET `Fname`= ?, `MInit`= ?, `Lname`= ?, `Email`= ?, `MobileNumber`= ?, `HouseNumber`= ?, `Street`= ?, `ZipCode`= ?, `City`= ?, `State`= ? WHERE CustomerID = ? ',
+    [req.query.Fname, req.query.MInit, req.query.Lname, req.query.Email, req.query.MobileNumber, req.query.HouseNumber, req.query.Street, req.query.ZipCode, req.query.City, req.query.State, req.query.id],
+    function (err, rows, fields)
+    {
+
+    if (err) console.log(err);
+    res.json(err);
+
+  });
+});
+
+
 module.exports = router;
