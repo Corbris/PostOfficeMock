@@ -3,7 +3,7 @@
 <br>
 
 <div class="container">
-  <form class="row" [formGroup]="userAccountForm" (ngSubmit)="submit()">
+  <form class="row" [formGroup]="userAccountForm">
 
     <div class="col-md-4">
       <h3>Name</h3>
@@ -32,14 +32,9 @@
       <br>
       <br>
 
-      <button type="submit">Save</button>
+      <button (click)="UpdateUser()">Save</button>
       <button >Reset (fixME)</button>
     </div>
   </form>
 </div>
 </body>
-
-
-
-
-
