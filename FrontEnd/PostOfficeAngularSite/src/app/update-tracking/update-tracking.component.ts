@@ -18,7 +18,7 @@ export class UpdateTrackingComponent implements OnInit {
   State         = new FormControl('');
   ZipCode       = new FormControl('');
   LocationID: string = "";
-  LocationKinds: string[] = ['Location ID', 'Address'];
+  LocationKinds: string[] = ['Location ID', 'Final Address'];
   ChosenLocationKind: string = 'Location ID';
 
   trucks = [];
@@ -79,8 +79,9 @@ export class UpdateTrackingComponent implements OnInit {
         });;
     }
 
-    else if (this.ChosenLocationKind == 'Address') {
-      this.api.updateTrackingToAddress(this.PackageID.value, this.TruckNum['TruckID'], EmployeeID, this.HouseNumber.value, this.StreetAddress.value, this.City.value, this.State.value, this.ZipCode.value, timeDate)
+    else if (this.ChosenLocationKind == 'Final Address') {
+      //this.api.updateTrackingToAddress(this.PackageID.value, this.TruckNum['TruckID'], EmployeeID, this.HouseNumber.value, this.StreetAddress.value, this.City.value, this.State.value, this.ZipCode.value, timeDate)
+      this.api.updateTrackingToAddress(this.PackageID.value, this.TruckNum['TruckID'], EmployeeID, timeDate)
         .subscribe((res) => {
           //no errors
           if (res == null) {

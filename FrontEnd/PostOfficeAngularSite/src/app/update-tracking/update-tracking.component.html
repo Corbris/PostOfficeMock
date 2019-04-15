@@ -33,32 +33,9 @@
           </mat-radio-button>
         </mat-radio-group>
       </div>
-      <div *ngIf="ChosenLocationKind == 'Address' ; then thenLocBlock else elseLocBlock"></div>
+      <div *ngIf="ChosenLocationKind == 'Final Address' ; then thenLocBlock else elseLocBlock"></div>
       <ng-template #thenLocBlock>
-        <div class="row">
-          <input type="text" [formControl]="HouseNumber"
-                 placeholder="(Going to) House Number">
-        </div>
-        <br>
-        <div class="row">
-          <input type="text" [formControl]="StreetAddress"
-                 placeholder="(Going to) Street Address">
-        </div>
-        <br>
-        <div class="row">
-          <input type="text" [formControl]="City"
-                 placeholder="(Going to) City">
-        </div>
-        <br>
-        <div class="row">
-          <input type="text" [formControl]="State"
-                 placeholder="(Going to) State">
-        </div>
-        <br>
-        <div class="row">
-          <input type="text" [formControl]="ZipCode"
-                 placeholder="(Going to) Zip Code">
-        </div>
+
       </ng-template>
       <ng-template #elseLocBlock>
         <div class="row">
