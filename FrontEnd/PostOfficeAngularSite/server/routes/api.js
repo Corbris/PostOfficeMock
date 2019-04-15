@@ -287,4 +287,13 @@ router.get('/employeeFromId', (req, res) => {
 });
 
 
+router.get('/employeesFromManager', (req, res) => {
+  console.log(req.query);
+  connection.query('SELECT * FROM Employee WHERE LocationID = (SELECT LocationID FROM Employee WHERE EmployeeID = ?)', [req.query.id], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
+
 module.exports = router;

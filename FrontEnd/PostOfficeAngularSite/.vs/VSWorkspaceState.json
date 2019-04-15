@@ -5,9 +5,11 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\employee-account",
-    "\\src\\app\\user-lookup"
+    "\\src\\app\\employee-lookup",
+    "\\src\\app\\location-employees",
+    "\\src\\app\\user-lookup",
+    "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\src\\app\\user-lookup\\user-lookup.component.css",
+  "SelectedNode": "\\src\\app\\location-employees\\location-employees.component.css",
   "PreviewInSolutionExplorer": false
 }

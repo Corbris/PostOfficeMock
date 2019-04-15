@@ -154,6 +154,12 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/employeeFromId', { params });
   }
 
+  //employees from managers id
+  employeesFromManager(id: string): Observable<any> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get('http://localhost:3000/api/employeesFromManager', { params });
+  }
+
 
 
 
