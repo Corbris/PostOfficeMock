@@ -5,10 +5,8 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\login",
-    "\\src\\app\\update-tracking",
     "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\server\\routes\\api.js",
+  "SelectedNode": "\\src\\app\\user-account",
   "PreviewInSolutionExplorer": false
 }
