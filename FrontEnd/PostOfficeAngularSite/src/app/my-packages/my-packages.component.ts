@@ -10,6 +10,8 @@ export class MyPackagesComponent implements OnInit {
   MyPackages;
   ExpectedPackages;
 
+  displayedPackageColumns = ['packageID', 'sendTo', 'eta', 'status'];
+
   constructor(public api: APIService) { }
 
   ngOnInit() {
@@ -23,7 +25,5 @@ export class MyPackagesComponent implements OnInit {
         .subscribe((data: {}) => {
           this.ExpectedPackages = data;
         });;
-    
   }
-
 }
