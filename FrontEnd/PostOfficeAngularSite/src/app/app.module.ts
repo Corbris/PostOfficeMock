@@ -66,6 +66,7 @@ import { LocationDashboardComponent } from './location-dashboard/location-dashbo
 import { AuthService } from './_services/auth.service';
 import { APIService } from './_services/api.service';
 import { RoleGuardService } from './_services/role-guard.service';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -129,7 +130,8 @@ import { RoleGuardService } from './_services/role-guard.service';
     MatTreeModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -167,7 +169,8 @@ import { RoleGuardService } from './_services/role-guard.service';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ChartsModule
   ],
   entryComponents: [ShoppingCartDialog],
   providers: [AuthService, APIService, RoleGuardService, HttpClientModule],
