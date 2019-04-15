@@ -104,9 +104,14 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/updateTrackingToLocation', { params });
   }
 
-  //updatetracking to house address
+  /*//updatetracking to house address
   updateTrackingToAddress(PackageID: string, TruckID: string, HandlerID: string, GoingToHouseNumber: string, GoingToStreet: string, GoingToCity: string, GoingToState: string, GoingToZipCode: string, Date: string) {
     const params = new HttpParams().set('PackageID', PackageID).set('TruckID', TruckID).set('HandlerID', HandlerID).set('GoingToHouseNumber', GoingToHouseNumber).set('GoingToStreet', GoingToStreet).set('GoingToCity', GoingToCity).set('GoingToState', GoingToState).set('GoingToZipCode', GoingToZipCode).set('Date', Date);
+    return this.http.get('http://localhost:3000/api/updateTrackingToAddress', { params });
+  }*/
+
+  updateTrackingToAddress(PackageID: string, TruckID: string, HandlerID: string, Date: string) {
+    const params = new HttpParams().set('PackageID', PackageID).set('TruckID', TruckID).set('HandlerID', HandlerID).set('Date', Date);
     return this.http.get('http://localhost:3000/api/updateTrackingToAddress', { params });
   }
 
@@ -136,6 +141,11 @@ export class APIService {
   customerFromEmail(Email: string): Observable<any> {
     const params = new HttpParams().set('Email', Email);
     return this.http.get('http://localhost:3000/api/customerFromEmail', { params });
+  }
+
+  updateTrackingNewPackage(PackageID: string, HandlerID: string, Date: string) {
+    const params = new HttpParams().set('PackageID', PackageID).set('HandlerID', HandlerID).set('Date', Date);
+    return this.http.get('http://localhost:3000/api/updateTrackingNewPackage', { params });
   }
 
 
