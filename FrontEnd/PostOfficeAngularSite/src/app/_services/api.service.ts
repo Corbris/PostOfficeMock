@@ -160,6 +160,11 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/employeesFromManager', { params });
   }
 
+  //shopproducts
+  shopProducts(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/shopProducts');
+  }
+
 
 
 

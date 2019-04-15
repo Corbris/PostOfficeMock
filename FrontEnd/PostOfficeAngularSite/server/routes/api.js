@@ -295,5 +295,12 @@ router.get('/employeesFromManager', (req, res) => {
   });
 });
 
+//shop products
+router.get('/shopProducts', (req, res) => {
+  connection.query('SELECT * FROM `Online Products` WHERE Available = 1', function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
 
 module.exports = router;
