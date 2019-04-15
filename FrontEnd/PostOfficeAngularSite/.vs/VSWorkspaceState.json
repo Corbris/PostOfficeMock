@@ -5,10 +5,9 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\tracking",
-    "\\src\\app\\update-tracking",
-    "\\src\\app\\_services"
+    "\\src\\app\\employee-account",
+    "\\src\\app\\user-lookup"
   ],
-  "SelectedNode": "\\server\\routes\\api.js",
+  "SelectedNode": "\\src\\app\\user-lookup\\user-lookup.component.css",
   "PreviewInSolutionExplorer": false
 }
