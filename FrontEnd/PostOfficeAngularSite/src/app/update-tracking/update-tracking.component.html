@@ -9,9 +9,17 @@
           placeholder="Package ID">
       </div>
       <br>
-      <div class = "row">
-        <input type="text" [formControl]="TruckNum"
-          placeholder="Truck Number">
+      <div class="row">
+        <!--<input type="text" [formControl]="TruckNum" placeholder="Truck Number">-->
+        <mat-form-field>
+          <mat-label>Truck Number</mat-label>
+          <mat-select [(ngModel)]="TruckNum" name="truck">
+            <mat-option *ngFor="let truck of trucks" [value]="truck">
+              {{truck.TruckID}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
       </div>
       <div class = "row">
         <mat-radio-group
@@ -27,30 +35,41 @@
       </div>
       <div *ngIf="ChosenLocationKind == 'Address' ; then thenLocBlock else elseLocBlock"></div>
       <ng-template #thenLocBlock>
-        <div class = "row">
+        <div class="row">
           <input type="text" [formControl]="HouseNumber"
-            placeholder="(Going to) House Number">
+                 placeholder="(Going to) House Number">
         </div>
         <br>
-        <div class = "row">
+        <div class="row">
           <input type="text" [formControl]="StreetAddress"
-            placeholder="(Going to) Street Address">
+                 placeholder="(Going to) Street Address">
         </div>
         <br>
-        <div class = "row">
+        <div class="row">
+          <input type="text" [formControl]="City"
+                 placeholder="(Going to) City">
+        </div>
+        <br>
+        <div class="row">
           <input type="text" [formControl]="State"
-            placeholder="(Going to) State">
+                 placeholder="(Going to) State">
         </div>
         <br>
-        <div class = "row">
+        <div class="row">
           <input type="text" [formControl]="ZipCode"
-            placeholder="(Going to) Zip Code">
+                 placeholder="(Going to) Zip Code">
         </div>
       </ng-template>
       <ng-template #elseLocBlock>
-        <div class = "row">
-          <input type="text" [formControl]="LocationID"
-            placeholder="Location ID">
+        <div class="row">
+          <mat-form-field>
+            <mat-label>Going to Location ID</mat-label>
+            <mat-select [(ngModel)]="LocationID" name="location">
+              <mat-option *ngFor="let location of locations" [value]="location">
+                {{location.LocationID}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </ng-template>
       <br>
