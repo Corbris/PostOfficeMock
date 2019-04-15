@@ -15,8 +15,10 @@ export class CreatePackageComponent implements OnInit {
   PackageForm: FormGroup;
   TransactionForm: FormGroup;
 
-  Cash = true;
-  CreditCard = false;
+  // Cash = true;
+  // CreditCard = false;
+  PaymentKinds: string[] = ['Cash', 'Credit Card'];
+  ChosenPaymentKind = 'Cash';
 
   Cost = 0.00;
   Tax = 0.00;
@@ -71,7 +73,7 @@ export class CreatePackageComponent implements OnInit {
     }
 
     let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
-    let paymentType = '' + ((this.CreditCard ? 1 : 0) + 1);
+    let paymentType = '' + ((this.ChosenPaymentKind == 'Credit Card' ? 1 : 0) + 1);
     let total = '' + this.Total;
 
     //cash

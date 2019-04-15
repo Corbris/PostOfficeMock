@@ -2,19 +2,20 @@
   <!-- Customer Email, or button to make new customer-->
 
   <h2>Ship A Package</h2>
+  <mat-divider></mat-divider>
   <br>
   <div class="row">
     <div class="col-sm-6">
       <h3>Customer Information</h3>
-      <p>Custoemr Email linked to account</p>
-      <input type="text" [formControl]="CustomerEmail" placeholder="Customer@emial.com">
+      <p>Enter the customer's account email:</p>
+      <input type="text" [formControl]="CustomerEmail" placeholder="Email Address">
     </div>
     <div class="col-sm-6">
       <br>
       <br>
       <br>
-      <p>Not a returning Customer Register them.</p>
-      <button>Make Cusrtomer account</button>
+      <p>If not a returning Customer:</p>
+      <button mat-raised-button>Make Customer Account</button>
     </div>
   </div>
 
@@ -25,7 +26,7 @@
   <!-- Package //need a way to do more then one for the trasaction,-->
   <form class="row" [formGroup]="PackageForm">
     <div class="col-sm-6" >
-      <h3>sending To Address</h3>
+      <h3>Sending To Address</h3>
       <br>
       <p>House number</p>
       <input type="text" formControlName="HouseNumber" placeholder="1234">
@@ -47,7 +48,7 @@
       <p>Size </p>
       <input type="text" formControlName="Size" placeholder="12x14x8">
       <p>ETA </p>
-      <input type="text" formControlName="ETA" placeholder="2019-03-25">   
+      <input type="text" formControlName="ETA" placeholder="2019-03-25">
     </div>
   </form>
 
@@ -55,32 +56,53 @@
   <br>
 
   <!-- Transacton-->
-  <form class="row" [formGroup]="TransactionForm">
+  <form class="row">
     <div class="col-sm-6">
       <h3>Payment Information</h3>
-      <p>Payment Type</p>
-      <input type="checkbox" [checked]="Cash" (change)="Cash = !Cash"/>Cash<br>
-      <input type="checkbox" [checked]="CreditCard" (change)="CreditCard = !CreditCard"/>CreditCard<br>
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        [(ngModel)]="ChosenPaymentKind"
+        name="PaymentKindChooser">
+        <mat-radio-button
+          class="example-radio-button"
+          *ngFor="let kind of PaymentKinds" [value]="kind">
+          {{kind}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <!-- <input type="checkbox" [checked]="Cash" (change)="Cash = !Cash"/>Cash<br> -->
+      <!-- <input type="checkbox" [checked]="CreditCard" (change)="CreditCard = !CreditCard"/>CreditCard<br> -->
 
-      <div *ngIf="CreditCard">
-      <p>First Name on CreditCard</p>
-      <input type="text" formControlName="FnameCC" placeholder="John">
-      <p>Middle Initial on CreditCard</p>
-      <input type="text" formControlName="MInitCC" placeholder="M">
-      <p>Last Name on CreditCard</p>
-      <input type="text" formControlName="LnameCC" placeholder="Doe">
-      <p>Credit Card number</p>
-      <input type="text" formControlName="CCnumner" placeholder="1234-2342-1231-5555">
+      <div *ngIf="ChosenPaymentKind == 'Credit Card'" [formGroup]="TransactionForm">
+        <p>Cardholder First Name</p>
+        <input type="text" formControlName="FnameCC" placeholder="John">
+        <p>Cardholder Middle Initial</p>
+        <input type="text" formControlName="MInitCC" placeholder="M">
+        <p>Cardholder Last Name</p>
+        <input type="text" formControlName="LnameCC" placeholder="Doe">
+        <p>Credit Card number</p>
+        <input type="text" formControlName="CCnumner" placeholder="1234-2342-1231-5555">
       </div>
     </div>
     <div class="col-sm-6">
       <h3>Cost</h3>
+
+      <mat-list>
+        <mat-list-item>
+          <p mat-line>Cost</p>
+          <div>${{Cost | number: '1.2-2'}}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <p mat-line>Tax</p>
+          <div>${{Tax | number: '1.2-2'}}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <p mat-line>Total</p>
+          <div>${{Total | number:'1.2-2'}}</div>
+        </mat-list-item>
       <br>
-      <p>Cost:   ${{Cost | number: '1.2-2'}}</p>
-      <p>Tax:    ${{Tax | number: '1.2-2'}}</p>
-      <p>Total:  ${{Total | number:'1.2-2'}}</p>
-      <br>
-      <button (click)="CheckOut()">Check Out</button>
+      <button mat-raised-button (click)="CheckOut()">Check Out</button>
+      </mat-list>
     </div>
   </form>
 
@@ -89,10 +111,8 @@
   </div>
 
 
-<br>
-<br>
-<br>
-<br>
+  <br>
+  <br>
+  <br>
+  <br>
 </body>
-
-
