@@ -3,10 +3,17 @@ import { APIService } from '../_services/api.service';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 
-export interface TableElement {
+export interface AccountElement {
   key :string;
   value :string;
 }
+
+// export interface PackageElement {
+//   packageID :string;
+//   sendTo :string;
+//   eta :string;
+//   status :string;
+// }
 
 @Component({
   selector: 'app-user-lookup',
@@ -17,17 +24,17 @@ export interface TableElement {
 export class UserLookupComponent implements OnInit {
   Email = new FormControl('');
   acquiredData = false;
-  NameData: TableElement[] = [
+  NameData: AccountElement[] = [
     {key: "First Name",     value: "John"},
     {key: "Middle Initial", value: "X"},
     {key: "Last Name",      value: "Doe"},
   ];
-  ContactData: TableElement[] = [
+  ContactData: AccountElement[] = [
     {key: "Email",     value: "john@example.com"},
     {key: "Mobile Phone", value: "999-999-9999"},
     {key: "House Phone", value: "999-999-9999"},
   ];
-  LocationData: TableElement[] = [
+  LocationData: AccountElement[] = [
     {key: "House Number",     value: "1111"},
     {key: "Street", value: "Somewhere Ave."},
     {key: "City", value: "Beverly Hills"},
@@ -35,14 +42,13 @@ export class UserLookupComponent implements OnInit {
     {key: "Zip Code", value: "90210"},
   ];
 
-  displayedColumns = ['key', 'value'];
-  // CustomerData;
+  MyPackages;
+  ExpectedPackages;
+  // PackagesData: PackageElement[] = [];
 
-  // user: CustomerData = {
-  //   Fname: "John",
-  //   MInit: "X",
-  //   Lname: "Doe",
-  // };
+  displayedAccountColumns = ['key', 'value'];
+  displayedPackageColumns = ['packageID', 'sendTo', 'eta', 'status'];
+  // CustomerData;
 
   constructor(public api: APIService,
               private snackBar: MatSnackBar) { }
