@@ -22,6 +22,7 @@ export class CreatePackageComponent implements OnInit {
   Total = 0.00;
 
   TransactionID;
+  PackageID;
 
   constructor(private formBuilder: FormBuilder,
     public api: APIService) { }
@@ -97,18 +98,33 @@ export class CreatePackageComponent implements OnInit {
 
   createPackage() {
     console.log("making the package");
-    let now = '' + Date.now();
+    let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
     this.api.createPackage(this.TransactionID, this.CustomerEmail.value, this.PackageForm.value.HouseNumber, this.PackageForm.value.Street, this.PackageForm.value.ZipCode, this.PackageForm.value.City, this.PackageForm.value.State, "USA", this.PackageForm.value.Weight, this.PackageForm.value.Size, now, this.PackageForm.value.ETA, "2")
       .subscribe((res) => {
         if (res == null) {
           console.log("error")
-
         }
         else {
           console.log("package was made ");
+          this.PackageID = res['insertId'];
+          this.updateTracking();
         }
       });;
 
+  }
+
+  updateTracking() {
+    console.log("making the package");
+    let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
+    this.api.updateTrackingNewPackage(this.PackageID, sessionStorage.getItem("ID"), now)
+      .subscribe((res) => {
+        if (res != null) {
+          console.log("error")
+        }
+        else {
+          console.log("tracking was updated");
+        }
+      });;
   }
 
 }
