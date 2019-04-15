@@ -101,7 +101,7 @@ export class RegisterComponent implements OnInit {
       result = true;
     }
     if (this.registerForm.value.State.length != 2) {
-      errorMessage = "The state initial should only be 2 letters.";
+      errorMessage = "The state initials should only be 2 letters.";
       result = true;
     }
 
