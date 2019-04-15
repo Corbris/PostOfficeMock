@@ -148,6 +148,12 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/updateTrackingNewPackage', { params });
   }
 
+  //customer info from Email
+  employeeFromId(id: string): Observable<any> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get('http://localhost:3000/api/employeeFromId', { params });
+  }
+
 
 
 

@@ -277,5 +277,14 @@ router.get('/updateTrackingNewPackage', (req, res) => {
   });
 });
 
+//get employee from id
+router.get('/employeeFromId', (req, res) => {
+  console.log(req.query);
+  connection.query('SELECT * FROM Employee WHERE EmployeeID = ?', [req.query.id], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
 
 module.exports = router;
