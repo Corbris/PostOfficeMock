@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from '../_services/api.service';
 import { AuthService } from '../_services/auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-register',
@@ -11,10 +12,12 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  hideAlert = true;
-  errorMessage = '';
 
-  constructor(private formBuilder: FormBuilder, public auth: AuthService, public api: APIService, public myRoute: Router) { }
+  constructor(private formBuilder: FormBuilder,
+              public auth: AuthService,
+              public api: APIService,
+              public myRoute: Router,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -34,16 +37,18 @@ export class RegisterComponent implements OnInit {
 
   register() {
     if (!this.errors()) {  //basic error with out checking api(length, type ect.)
-      this.hideAlert = true;
+      // this.hideAlert = true;
 
-      //call api, returns the error message. 
+      //call api, returns the error message.
       this.api.registerUser(this.registerForm.value.Fname, this.registerForm.value.Mint, this.registerForm.value.Lname, this.registerForm.value.Email, this.registerForm.value.PhoneNumber, this.registerForm.value.HouseNumber, this.registerForm.value.Street, this.registerForm.value.City, this.registerForm.value.State, this.registerForm.value.Zip)
         .subscribe((res) => {
           console.log(res);
-          //return an error message 
+          //return an error message
           if (res != null) {
-            this.errorMessage = res.sqlMessage;
-            this.hideAlert = false;
+            this.snackBar.open(res.sqlMessage, "Close", {
+              duration: 2000,
+            });
+            // this.hideAlert = false;
           }
 
           //no error was good
@@ -53,12 +58,12 @@ export class RegisterComponent implements OnInit {
           }
 
        });;
-      
+
     }
     //if form not valid error
-    else {
-      this.hideAlert = false;
-    }
+    // else {
+    //   this.hideAlert = false;
+    // }
   }
 
   userLoginTable() {
@@ -73,35 +78,44 @@ export class RegisterComponent implements OnInit {
 
 
   errors(): boolean{
+    var result = false;
+    var errorMessage = '';
     if (!this.registerForm.valid) {
-      this.errorMessage = "One or more of the fields ssing";
-      return true;
+      errorMessage = "One or more of the fields is missing.";
+      result = true;
     }
     if (this.registerForm.value.Fname.length < 2) {
-      this.errorMessage = "Enter a valid First Name";
-      return true;
+      errorMessage = "Enter a valid first name.";
+      result = true;
     }
     if (this.registerForm.value.Mint.length > 1) {
-      this.errorMessage = "Your Middle Inital should only be 1 letter";
-      return true;
+      errorMessage = "Your middle initial should only be 1 letter.";
+      result = true;
     }
     if (this.registerForm.value.Lname.length < 2) {
-      this.errorMessage = "Enter a valid Last Name";
-      return true;
+      errorMessage = "Enter a valid last name.";
+      result = true;
     }
     if (this.registerForm.value.Email.length < 5 || this.registerForm.value.Email.indexOf('\u0040') <= 0) {
-      this.errorMessage = "Enter a valid Email";
-      return true;
+      errorMessage = "Enter a valid email.";
+      result = true;
     }
     if (this.registerForm.value.State.length != 2) {
-      this.errorMessage = "The Satate Inital should only be 2 letters";
-      return true;
+      errorMessage = "The state initial should only be 2 letters.";
+      result = true;
     }
-    return false;
+
+    if (result) {
+      this.snackBar.open(errorMessage, "Close", {
+        duration: 2000,
+      });
+    }
+
+    return result;
   }
 
-  closeAlert() {
-    this.hideAlert = true;
-  }
+  // closeAlert() {
+  //   this.hideAlert = true;
+  // }
 
 }
