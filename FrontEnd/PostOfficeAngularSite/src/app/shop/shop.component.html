@@ -1,50 +1,48 @@
 <!DOCTYPE html>
-<html>
-  <head>
-  </head>
-  <body>
-    <div class="row">
-      <div class="col-auto mr-auto">
-        <h2>Shop</h2>
-      </div>
-      <div class="col-auto">
-        <div *ngIf="getCartItems().length != 0; then thenBlock else elseBlock"></div>
-        <ng-template #thenBlock>
-          <button mat-flat-button (click)="openCart()">
-            <mat-icon
-              matBadge={{getNumCartItems()}}
-              matBadgeOverlap="false"
-              matBadgeColor="warn">
-              shopping_cart
-            </mat-icon>
-          </button>
-        </ng-template>
-        <ng-template #elseBlock>
-          <button mat-flat-button disabled>
-            <mat-icon>shopping_cart</mat-icon>
+<body>
+  <div class="row">
+    <div class="col-auto mr-auto">
+      <h2>Shop</h2>
+    </div>
+    <div class="col-auto">
+      <div *ngIf="getCartItems().length != 0; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+        <button mat-flat-button (click)="openCart()">
+          <mat-icon
+            matBadge={{getNumCartItems()}}
+            matBadgeOverlap="false"
+            matBadgeColor="warn">
+            shopping_cart
+          </mat-icon>
         </button>
-        </ng-template>
-      </div>
+      </ng-template>
+      <ng-template #elseBlock>
+        <button mat-flat-button disabled>
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+      </ng-template>
     </div>
-    <div class="row row-eq-height">
-      <div class="col-3" *ngFor="let item of items">
-        <mat-card>
-          <mat-card-title>
-            {{item.title}}
-          </mat-card-title>
-          <mat-card-subtitle>{{item.description}}</mat-card-subtitle>
-          <img mat-card-image src={{item.image}}>
-          <mat-card-actions>
-            <button mat-button (click)="addToCart(item)">
-              <mat-icon>add_shopping_cart</mat-icon>
-              ${{item.price}}
-            </button>
-          </mat-card-actions>
-          <!-- <button mat-button> -->
-          <!-- <mat-icon>remove_shopping_cart</mat-icon> -->
-          <!-- </button> -->
-        </mat-card>
-      </div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <div class="row row-eq-height">
+    <div class="col-3" *ngFor="let item of items">
+      <mat-card>
+        <mat-card-title>
+          {{item.title}}
+        </mat-card-title>
+        <mat-card-subtitle>{{item.description}}</mat-card-subtitle>
+        <img mat-card-image src={{item.image}}>
+        <mat-card-actions>
+          <button mat-button (click)="addToCart(item)">
+            <mat-icon>add_shopping_cart</mat-icon>
+            ${{item.price}}
+          </button>
+        </mat-card-actions>
+        <!-- <button mat-button> -->
+        <!-- <mat-icon>remove_shopping_cart</mat-icon> -->
+        <!-- </button> -->
+      </mat-card>
     </div>
-  </body>
-</html>
+  </div>
+</body>

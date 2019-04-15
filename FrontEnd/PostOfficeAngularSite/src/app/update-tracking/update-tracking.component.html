@@ -39,14 +39,12 @@
       </ng-template>
       <ng-template #elseLocBlock>
         <div class="row">
-          <mat-form-field>
-            <mat-label>Going to Location ID</mat-label>
-            <mat-select [(ngModel)]="LocationID" name="location">
-              <mat-option *ngFor="let location of locations" [value]="location">
-                {{location.LocationID}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <br>
+          <select [(ngModel)]="LocationID" name="location">
+            <option *ngFor="let location of locations" [value]="location">
+              {{location.LocationID}}
+            </option>
+          </select>
         </div>
       </ng-template>
       <br>

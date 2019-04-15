@@ -1,14 +1,18 @@
 <body>
   <h2>Find Location</h2>
+  <mat-divider></mat-divider>
+  <br>
   <div class="ZipCodeForm">
     <input type="text" [formControl]="Zip" placeholder="Zip Code">
     <button mat-raised-button (click)="findLocation()">Lookup</button>
     <br>
     <br>
   </div>
-
   <mat-card *ngFor="let Location of Locations">
-    <p class="name">PostOffice {{Location.LocationID}}
+    <mat-card-header>
+    <mat-card-title>Post Office {{Location.LocationID}}</mat-card-title>
+    </mat-card-header>
+      <!-- <p class="name">PostOffice {{Location.LocationID}} -->
     <p class="address">{{Location.BuildingNumber}} {{Location.Street}} {{Location.ZipCode}} {{Location.City}} {{Location.State}}
     <p class="hours">Open: {{Location.Hours}}
   </mat-card>
