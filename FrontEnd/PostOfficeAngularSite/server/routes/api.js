@@ -50,7 +50,7 @@ router.get('/employeeLogin', (req, res) => {
 router.get('/packageTracking', (req, res) => {
   console.log(req.query.id);
   connection.query(
-    'SELECT Tracking.TruckID, Tracking.Date, Location.City, Location.State, Package.SendToHouseNumber, Package.SendToStreet FROM Tracking LEFT JOIN Location ON Tracking.CurrentLocationID = Location.LocationID LEFT JOIN Package ON Package.PackageID = Tracking.PackageID WHERE Tracking.PackageID = ?',[req.query.id], function (err, rows, fields) {
+    'SELECT Tracking.TruckID, Tracking.GoingToLocationID, Tracking.Date, Location.City, Location.State, Package.SendToHouseNumber, Package.SendToStreet FROM Tracking LEFT JOIN Location ON Tracking.CurrentLocationID = Location.LocationID LEFT JOIN Package ON Package.PackageID = Tracking.PackageID WHERE Tracking.PackageID = ?',[req.query.id], function (err, rows, fields) {
       if (err) throw err
       for (var x in rows) {
         //last in tracking
@@ -60,7 +60,7 @@ router.get('/packageTracking', (req, res) => {
           {
             rows[x].Status = "sorting";
           }
-          if (rows[x].City != null)
+          else if (rows[x].GoingToLocationID == null)
           {
             rows[x].Status = "delivering";
             rows[x].City = rows[x].SendToHouseNumber;
@@ -101,7 +101,7 @@ router.get('/packagesToAddress', (req, res) => {
 
 //find location based on ABS of ZipCode
 router.get('/findLocation', (req, res) => {
-  connection.query('SELECT Location.LocationID, Location.BuildingNumber, Location.ZipCode, Location.City, Location.State, Location.Hours FROM Location ORDER BY ABS(Location.ZipCode - ?) DESC', [req.query.zip], function (err, rows, fields) {
+  connection.query('SELECT Location.LocationID, Location.BuildingNumber, Location.ZipCode, Location.City, Location.State, Location.Hours FROM Location ORDER BY ABS(Location.ZipCode - ?) ASC', [req.query.zip], function (err, rows, fields) {
     if (err) throw err
     res.json(rows);
   });
