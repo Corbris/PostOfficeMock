@@ -5,17 +5,9 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-<<<<<<< HEAD
-    "\\src\\app\\tracking",
     "\\src\\app\\update-tracking",
-    "\\src\\app\\user-lookup",
     "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\src\\app\\tracking\\tracking.component.css",
-=======
-    "\\src\\app\\_services"
-  ],
-  "SelectedNode": "\\src\\app\\user-account",
->>>>>>> 6f9cbcdfafcccea631e5307d1c08941248ee0051
+  "SelectedNode": "\\server\\routes\\api.js",
   "PreviewInSolutionExplorer": false
 }
