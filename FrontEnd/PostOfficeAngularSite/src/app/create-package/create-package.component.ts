@@ -54,7 +54,7 @@ export class CreatePackageComponent implements OnInit {
   }
 
   CheckOut() {
-    let now = '' + Date.now();
+    let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
     let paymentType = '' + ((this.CreditCard ? 1 : 0) + 1);
     let total = '' + this.Total;
 
