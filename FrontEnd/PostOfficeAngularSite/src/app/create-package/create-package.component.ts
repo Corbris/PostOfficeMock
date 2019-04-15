@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { APIService } from '../_services/api.service';
 import { DatePipe } from '@angular/common';
 import { formatDate } from '@angular/common';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-create-package',
@@ -25,25 +26,26 @@ export class CreatePackageComponent implements OnInit {
   PackageID;
 
   constructor(private formBuilder: FormBuilder,
-    public api: APIService) { }
+    public api: APIService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.PackageForm = this.formBuilder.group({
-      HouseNumber: ['', Validators.compose([Validators.required])],
-      Street: ['', Validators.compose([Validators.required])],
-      City: ['', Validators.compose([Validators.required])],
-      State: ['', Validators.compose([Validators.required])],
-      ZipCode: ['', Validators.compose([Validators.required])],
-      Weight: ['', Validators.compose([Validators.required])],
-      Size: ['', Validators.compose([Validators.required])],
-      ETA: ['', Validators.compose([Validators.required])]
+      HouseNumber: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      Street: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      City: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      State: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      ZipCode: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      Weight: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      Size: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      ETA: ['', Validators.compose([Validators.required, Validators.minLength(2)])]
     });
 
     this.TransactionForm = this.formBuilder.group({
-      FnameCC: ['', Validators.compose([Validators.required])],
-      MInitCC: ['', Validators.compose([Validators.required])],
-      LnameCC: ['', Validators.compose([Validators.required])],
-      CCnumner: ['', Validators.compose([Validators.required])]
+      FnameCC: ['', Validators.compose([Validators.minLength(2)])],
+      MInitCC: ['', Validators.compose([Validators.minLength(2)])],
+      LnameCC: ['', Validators.compose([Validators.minLength(2)])],
+      CCnumner: ['', Validators.compose([Validators.minLength(2)])]
     });
 
     this.PackageForm.valueChanges.subscribe(() => {
@@ -55,6 +57,19 @@ export class CreatePackageComponent implements OnInit {
   }
 
   CheckOut() {
+    if (!this.PackageForm.valid) {
+      this.snackBar.open("Same of the Package Information is Invalid", "Close", {
+        duration: 8000,
+      });
+      return;
+    }
+    else if (!this.TransactionForm.valid) {
+      this.snackBar.open("Same of the Transaction Information is Invalid", "Close", {
+        duration: 8000,
+      });
+      return;
+    }
+
     let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
     let paymentType = '' + ((this.CreditCard ? 1 : 0) + 1);
     let total = '' + this.Total;
@@ -65,7 +80,10 @@ export class CreatePackageComponent implements OnInit {
         .subscribe((res) => {
           //we are returning the response
           if (res == null) {
-            console.log("error")
+            console.log(res);
+            this.snackBar.open("Failed to Create the Transaction Check the Customers Email", "Close", {
+              duration: 8000,
+            });
           }
           else {
             console.log("transaction was good");
@@ -83,7 +101,9 @@ export class CreatePackageComponent implements OnInit {
         .subscribe((res) => {
           //we are returning the response
           if (res == null) {
-            console.log("error")
+            this.snackBar.open("Failed to Create the Transaction", "Close", {
+              duration: 8000,
+            });
           }
           else {
             console.log("transaction was good");
@@ -103,6 +123,9 @@ export class CreatePackageComponent implements OnInit {
       .subscribe((res) => {
         if (res == null) {
           console.log("error")
+          this.snackBar.open("Failed to Create the Package", "Close", {
+            duration: 8000,
+          });
         }
         else {
           console.log("package was made ");
@@ -119,7 +142,9 @@ export class CreatePackageComponent implements OnInit {
     this.api.updateTrackingNewPackage(this.PackageID, sessionStorage.getItem("ID"), now)
       .subscribe((res) => {
         if (res != null) {
-          console.log("error")
+          this.snackBar.open("Failed to update Tracking", "Close", {
+            duration: 8000,
+          });
         }
         else {
           console.log("tracking was updated");
