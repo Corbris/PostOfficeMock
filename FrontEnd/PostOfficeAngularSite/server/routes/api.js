@@ -219,5 +219,28 @@ router.get('/getLocations', (req, res) => {
 });
 
 
+//get employee by id
+router.get('/getEmployee', (req, res) => {
+  connection.query('SELECT * FROM Employee WHERE EmployeeID = ?', [req.query.id], function (err, rows, fields) {
+    if (err) throw err
+    res.json(rows);
+  });
+});
+
+
+
+//UpdateUser
+router.get('/updateEmployeePersonal', (req, res) => {
+  console.log(req.query);
+  connection.query('UPDATE Employee SET `Fname`= ?, `MInit`= ?, `Lname`= ?, `PersonalEmail`= ?, `MobilePhone`= ?, `HouseNumber`= ?, `Street`= ?, `ZipCode`= ?, `City`= ?, `State`= ? WHERE EmployeeID = ? ',
+    [req.query.Fname, req.query.MInit, req.query.Lname, req.query.Email, req.query.MobileNumber, req.query.HouseNumber, req.query.Street, req.query.ZipCode, req.query.City, req.query.State, req.query.id],
+    function (err, rows, fields) {
+
+      if (err) console.log(err);
+      res.json(err);
+
+    });
+});
+
 
 module.exports = router;

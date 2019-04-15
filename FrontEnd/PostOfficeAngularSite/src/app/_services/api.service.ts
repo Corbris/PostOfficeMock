@@ -119,7 +119,18 @@ export class APIService {
   getTrucks(): Observable<any> {
     return this.http.get('http://localhost:3000/api/getTrucks');
   }
-  
+
+  //getEmployee ID
+  getEmployee(id: string): Observable<any> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get('http://localhost:3000/api/getEmployee', {params});
+  }
+
+  updateEmployeePersonal(Fname: string, MInit: string, Lname: string, Email: string, MobileNumber: string, HouseNumber: string, Street: string, City: string, State: string, ZipCode: string, id: string): Observable<any> {
+    const params = new HttpParams().set('id', id).set('Fname', Fname).set('MInit', MInit).set('Lname', Lname).set('Email', Email).set('MobileNumber', MobileNumber).set('HouseNumber', HouseNumber).set('Street', Street).set('City', City).set('State', State).set('ZipCode', ZipCode);
+    return this.http.get('http://localhost:3000/api/updateEmployeePersonal', { params });
+  }
+
 
 
 
