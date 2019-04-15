@@ -8,13 +8,6 @@ export interface AccountElement {
   value :string;
 }
 
-// export interface PackageElement {
-//   packageID :string;
-//   sendTo :string;
-//   eta :string;
-//   status :string;
-// }
-
 @Component({
   selector: 'app-user-lookup',
   templateUrl: './user-lookup.component.html',
