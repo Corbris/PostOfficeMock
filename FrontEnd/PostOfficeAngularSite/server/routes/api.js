@@ -50,8 +50,9 @@ router.get('/employeeLogin', (req, res) => {
 router.get('/packageTracking', (req, res) => {
   console.log(req.query.id);
   connection.query(
-    'SELECT Tracking.TruckID, Tracking.GoingToLocationID, Tracking.Date, Location.City, Location.State, Package.SendToHouseNumber, Package.SendToStreet FROM Tracking LEFT JOIN Location ON Tracking.CurrentLocationID = Location.LocationID LEFT JOIN Package ON Package.PackageID = Tracking.PackageID WHERE Tracking.PackageID = ?',[req.query.id], function (err, rows, fields) {
-      if (err) throw err
+    //'SELECT Tracking.TruckID, Tracking.GoingToLocationID, Tracking.Date, Location.City, Location.State, Package.SendToHouseNumber, Package.SendToStreet FROM Tracking LEFT JOIN Location ON Tracking.CurrentLocationID = Location.LocationID LEFT JOIN Package ON Package.PackageID = Tracking.PackageID WHERE Tracking.PackageID = ?',[req.query.id], function (err, rows, fields) {
+     'SELECT Tracking.TruckID, Tracking.GoingToLocationID, Tracking.Date, Location.City, Location.State, Tracking.GoingToHouseNumber, Tracking.GoingToStreet FROM Tracking LEFT JOIN Location ON Tracking.CurrentLocationID = Location.LocationID WHERE Tracking.PackageID = ?',[req.query.id], function (err, rows, fields) {
+    if (err) throw err
       for (var x in rows) {
         //last in tracking
         if (x == rows.length - 1) {
@@ -63,8 +64,8 @@ router.get('/packageTracking', (req, res) => {
           else if (rows[x].GoingToLocationID == null)
           {
             rows[x].Status = "delivering";
-            rows[x].City = rows[x].SendToHouseNumber;
-            rows[x].State = rows[x].SendToStreet;
+            rows[x].City = rows[x].GoingToHouseNumber;
+            rows[x].State = rows[x].GoingToStreet;
           }
           else {
             rows[x].Status = "in transit";
