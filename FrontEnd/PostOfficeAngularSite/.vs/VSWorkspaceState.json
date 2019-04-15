@@ -5,7 +5,7 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\create-package",
+    "\\src\\app\\tracking",
     "\\src\\app\\update-tracking",
     "\\src\\app\\_services"
   ],
