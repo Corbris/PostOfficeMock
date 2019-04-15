@@ -82,21 +82,46 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/updateUser', { params });
   }
 
-
+  //create transaction with cash a payment
   packageTransactionCash(Email: string, Date: string, Total: string, PaymentType: string, EmployeeID: string) {
     const params = new HttpParams().set('Email', Email).set('Date', Date).set('Total', Total).set('PaymentType', PaymentType).set('EmployeeID', EmployeeID);
     return this.http.get('http://localhost:3000/api/packageTransactionCash', { params });
   }
-
+  //create transaction with creditcard a payment
   packageTransactionCC(Email: string, Date: string, Total: string, FirstFourCC: string, FnameCC: string, LnameCC: string, MinitCC: string, PaymentType: string, EmployeeID: string) {
     const params = new HttpParams().set('Email', Email).set('Date', Date).set('Total', Total).set('FirstFourCC', FirstFourCC).set('FnameCC', FnameCC).set('LnameCC', LnameCC).set('MinitCC', MinitCC).set('PaymentType', PaymentType).set('EmployeeID', EmployeeID);
     return this.http.get('http://localhost:3000/api/packageTransactionCC', { params });
   }
-
+  //createpackage
   createPackage(transactionID: string, CustomerEmail: string, SendToHouseNumber: string, SendToStreet: string, SendToZipCode: string, SendToCity: string, SendToState: string, SendToCountry: string, PackageWeight: string, PackageSize: string, SentDate: string, ETA: string, PackageStateID:string) {
     const params = new HttpParams().set('transactionID', transactionID).set('CustomerEmail', CustomerEmail).set('SendToHouseNumber', SendToHouseNumber).set('SendToStreet', SendToStreet).set('SendToZipCode', SendToZipCode).set('SendToCity', SendToCity).set('SendToState', SendToState).set('SendToCountry', SendToCountry).set('PackageWeight', PackageWeight).set('PackageSize', PackageSize).set('SentDate', SentDate).set('ETA', ETA).set('PackageStateID', PackageStateID);
     return this.http.get('http://localhost:3000/api/createPackage', { params });
   }
+
+  //updatetracking to location ID
+  updateTrackingToLocation(PackageID: string, TruckID: string, HandlerID: string, GoingToLocationID:string, Date:string) {
+    const params = new HttpParams().set('PackageID', PackageID).set('TruckID', TruckID).set('HandlerID', HandlerID).set('GoingToLocationID', GoingToLocationID).set('Date', Date);
+    return this.http.get('http://localhost:3000/api/updateTrackingToLocation', { params });
+  }
+
+  //updatetracking to house address
+  updateTrackingToAddress(PackageID: string, TruckID: string, HandlerID: string, GoingToHouseNumber: string, GoingToStreet: string, GoingToCity: string, GoingToState: string, GoingToZipCode: string, Date: string) {
+    const params = new HttpParams().set('PackageID', PackageID).set('TruckID', TruckID).set('HandlerID', HandlerID).set('GoingToHouseNumber', GoingToHouseNumber).set('GoingToStreet', GoingToStreet).set('GoingToCity', GoingToCity).set('GoingToState', GoingToState).set('GoingToZipCode', GoingToZipCode).set('Date', Date);
+    return this.http.get('http://localhost:3000/api/updateTrackingToAddress', { params });
+  }
+
+  //location
+  getLocations(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/getLocations');
+  }
+
+  //get trucks
+  getTrucks(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/getTrucks');
+  }
+  
+
+
 
 }
 
