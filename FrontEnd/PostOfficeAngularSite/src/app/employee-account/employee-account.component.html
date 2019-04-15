@@ -1,3 +1,70 @@
-<p>
-  employee-account works!
-</p>
+<body>
+  <h2>Work Details</h2>
+  <br>
+  <div class="container">
+    <form class="row">
+
+      <div class="col-md-4">
+        <p>LocationID: {{LocationID}}</p>
+        <p>EmployeID: {{EmployeeID}}</p>
+        <p>Job: {{RoleID}}</p>
+        <p>Auth Level: {{AuthID}}</p>
+        <p>Hourly Wage: {{Wage}}</p>
+        <p>Hired On: {{HiredOn}}</p>
+        <p>Work Email: {{WorkEmail}}</p>
+        <p>Work Phone {{WorkPhone}}</p>
+        <br>
+      </div>
+
+
+      <div class="col-md-4">
+      </div>
+
+      <div class="col-md-4">
+      </div>
+
+    </form>
+  </div>
+
+  <mat-divider></mat-divider>
+  <br>
+
+  <h2>Personal Account Details</h2>
+  <br>
+
+  <div class="container">
+    <form class="row" [formGroup]="employeeAccountForm">
+
+      <div class="col-md-4">
+        <h3>Name</h3>
+        <p>First</p><input type="text" formControlName="Fname">
+        <p>Middle Initial</p><input type="text" formControlName="Mint">
+        <p>Last</p><input type="text" formControlName="Lname">
+      </div>
+
+
+      <div class="col-md-4">
+        <h3>Email & Phone</h3>
+        <p>Personal Email</p><input type="text" formControlName="Email">
+        <p>Mobile Phone</p><input type="text" formControlName="PhoneNumber">
+      </div>
+
+
+      <div class="col-md-4">
+        <h3>Address</h3>
+        <p>House Number</p> <input type="text" formControlName="HouseNumber">
+        <p>Street</p><input type="text" formControlName="Street">
+        <br>
+        <p>City</p><input type="text" formControlName="City">
+        <p>State Initial</p><input type="text" formControlName="State">
+        <p>Zip Code</p><input type="text" formControlName="Zip">
+
+        <br>
+        <br>
+
+        <button (click)="UpdateUser()">Edit & Save</button>
+        <button>Reset</button>
+      </div>
+    </form>
+  </div>
+</body>
