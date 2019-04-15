@@ -50,16 +50,10 @@ export class UserAccountComponent implements OnInit {
   UpdateUser() {
     //update API.
     //customer & customer login page.
-    this.api.updateUser(this.userAccountForm.value.Fname, this.userAccountForm.value.Mint, this.userAccountForm.value.Lname, this.userAccountForm.value.Email, this.userAccountForm.value.PhoneNumber, this.userAccountForm.value.HouseNumber, this.userAccountForm.value.Street, this.userAccountForm.value.City, this.userAccountForm.value.State, this.userAccountForm.value.Zip, this.UserID)
-      .subscribe((res) => {
-        console.log(res);
-      });;
-    
-
-
+      this.api.updateUser(this.userAccountForm.value.Fname, this.userAccountForm.value.Mint, this.userAccountForm.value.Lname, this.userAccountForm.value.Email, this.userAccountForm.value.PhoneNumber, this.userAccountForm.value.HouseNumber, this.userAccountForm.value.Street, this.userAccountForm.value.City, this.userAccountForm.value.State, this.userAccountForm.value.Zip, this.UserID)
+        .subscribe((res) => {
+          console.log(res);
+        });
   }
 
-
-
-   
 }
