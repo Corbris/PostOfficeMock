@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { APIService } from '../_services/api.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-tracking',
@@ -9,14 +10,12 @@ import { APIService } from '../_services/api.service';
 })
 
 export class TrackingComponent implements OnInit {
-  ID = '';
   IDForm = new FormControl('');
-  hideAlert = true;
   hideTracking = true;
   panelOpenState = false;
   Response;
 
-  constructor(public api: APIService) {}
+  constructor(public api: APIService, private snackBar: MatSnackBar) {}
 
   trackPackage() //validate the package id
   {
@@ -25,23 +24,17 @@ export class TrackingComponent implements OnInit {
         //no package
         if (data[0] == undefined) {
           this.hideTracking = true;
-          this.hideAlert = false;
-          this.ID = '';
+          this.snackBar.open("No Package Was found with that ID", "Close", {
+            duration: 8000,
+          });
         }
         //found the package
         else if (data[0] != undefined) {
           this.Response = data;
-          console.log(this.Response);
-          this.hideAlert = true;
           this.hideTracking = false;
         }
   });;
-
       
-  }
-
-  closeAlert() {
-    this.hideAlert = true;
   }
 
   ngOnInit() {
