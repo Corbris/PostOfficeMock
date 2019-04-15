@@ -1,3 +1,100 @@
-<p>
-  create-package works!
-</p>
+<body>
+<div class="container">
+  <!-- Customer Email, or button to make new customer-->
+
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>Customer Information</h3>
+      <p>Custoemr Email linked to account</p>
+      <input type="text" [formControl]="CustomerEmail" placeholder="Customer@emial.com">
+    </div>
+    <div class="col-sm-6">
+      <br>
+      <br>
+      <p>Not a returning Customer Register them.</p>
+      <button>Make Cusrtomer account</button>
+    </div>
+  </div>
+
+  <hr>
+  <br>
+  <br>
+
+  <!-- Added for if customer is not registered-->
+  <!-- Package //need a way to do more then one for the trasaction,-->
+  <form class="row" [formGroup]="PackageForm">
+    <div class="col-sm-6" >
+      <h3>sending To Address</h3>
+      <br>
+      <p>House number</p>
+      <input type="text" formControlName="HouseNumber" placeholder="1234">
+      <p>Street</p>
+      <input type="text" formControlName="Street" placeholder="Main Street">
+      <p>City</p>
+      <input type="text" formControlName="City" placeholder="Houston">
+      <p>State Initals</p>
+      <input type="text" formControlName="State" placeholder="TX">
+      <p>ZipCode</p>
+      <input type="text" formControlName="ZipCode" placeholder="77032">
+    </div>
+
+    <div class="col-sm-6">
+      <h3>Package Stats</h3>
+      <br>
+      <p>Weight </p>
+      <input type="text" formControlName="Weight" placeholder="12.2">
+      <p>Size </p>
+      <input type="text" formControlName="Size" placeholder="12x14x8">
+      <p>ETA </p>
+      <input type="text" formControlName="ETA" placeholder="2019-03-25">   
+    </div>
+  </form>
+
+  <br>
+  <br>
+  <hr>
+
+  <!-- Transacton-->
+  <form class="row" [formGroup]="TransactionForm">
+    <div class="col-sm-6">
+      <h3>Payment Information</h3>
+      <p>Payment Type</p>
+      <input type="checkbox" [checked]="Cash" (change)="Cash = !Cash"/>Cash<br>
+      <input type="checkbox" [checked]="CreditCard" (change)="CreditCard = !CreditCard"/>CreditCard<br>
+
+      <div *ngIf="CreditCard">
+      <p>First Name on CreditCard</p>
+      <input type="text" formControlName="FnameCC" placeholder="John">
+      <p>Middle Initial on CreditCard</p>
+      <input type="text" formControlName="MInitCC" placeholder="M">
+      <p>Last Name on CreditCard</p>
+      <input type="text" formControlName="LnameCC" placeholder="Doe">
+      <p>Credit Card number</p>
+      <input type="text" formControlName="CCnumner" placeholder="1234-2342-1231-5555">
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <h3>Cost</h3>
+      <br>
+      <p>Cost:   ${{Cost | number: '1.2-2'}}</p>
+      <p>Tax:    ${{Tax | number: '1.2-2'}}</p>
+      <p>Total:  ${{Total | number:'1.2-2'}}</p>
+      <br>
+      <button (click)="CheckOut()">Check Out</button>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-sm-12"></div>
+  </div>
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+</body>
+
+
