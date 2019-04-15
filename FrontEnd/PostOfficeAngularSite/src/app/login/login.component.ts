@@ -30,23 +30,52 @@ export class LoginComponent implements OnInit {
   login() {
     //login forms were filled out
     if (this.loginForm.valid) {
-      var data = this.api.userLoginAuth(this.loginForm.value.email, this.loginForm.value.password)
-        .subscribe((data: {}) => {
-          //we have logged in a nd API returns user ID
-          if (data[0] != undefined) {
-            this.snackBar.open("Logged in.", "Close", {
-              duration: 2000,
-            });
-            console.log("User: " + data[0].CustomerID + " has logged in");
-            this.auth.sendToken("user", data[0].CustomerID);
-            this.myRoute.navigate(["home"]);
-          }
-          else {
-            this.snackBar.open("Incorrect Email/Password!", "Close", {
-              duration: 2000,
-            });
-          }
-        });;
+      if (this.loginForm.value.email.indexOf('\u0040') > 0) {
+        this.api.userLoginAuth(this.loginForm.value.email, this.loginForm.value.password)
+          .subscribe((data: {}) => {
+            //we have logged in a nd API returns user ID
+            if (data[0] != undefined) {
+              this.snackBar.open("Logged in.", "Close", {
+                duration: 2000,
+              });
+              console.log("User: " + data[0].CustomerID + " has logged in");
+              this.auth.sendToken("user", data[0].CustomerID);
+              this.myRoute.navigate(["home"]);
+            }
+
+            else {
+              this.snackBar.open("Incorrect Email/Password!", "Close", {
+                duration: 2000,
+              });
+            }
+          });;
+      }
+
+
+      //employee login
+      else {
+        this.api.employeeLoginAuth(this.loginForm.value.email, this.loginForm.value.password)
+          .subscribe((data: {}) => {
+            //we have logged in a nd API returns user ID
+            if (data[0] != undefined) {
+              this.snackBar.open("Logged in.", "Close", {
+                duration: 2000,
+              });
+              console.log(data[0].AuthenticationLevel + ": " + this.loginForm.value.email + " has logged in");
+              this.auth.sendToken(data[0].AuthenticationLevel, this.loginForm.value.email);
+              this.myRoute.navigate(["home"]);
+            }
+
+            else {
+              this.snackBar.open("Incorrect Email/Password!", "Close", {
+                duration: 2000,
+              });
+            }
+          });;
+
+      }
+
+
     }
     //something was missing.
     else {

@@ -34,6 +34,18 @@ router.get('/userLogin', (req, res) => {
     });
 });
 
+
+//LOGIN
+//return authlevel of the employee that logged in. employeeID & password as params
+router.get('/employeeLogin', (req, res) => {
+  connection.query('SELECT AuthenticationLevel FROM Authentication WHERE AuthenticationID = (SELECT AuthID FROM Employee WHERE EmployeeID = (SELECT EmployeeID FROM EmployeeLogin WHERE EmployeeID = ? AND EmployeePassword = ?))', [req.query.id, req.query.password], function (err, rows, fields) {
+    if (err) throw err
+    res.json(rows);
+  });
+});
+
+
+
 //TRACKING by ID return DATE Location City & state Package Send to address & status based on row
 router.get('/packageTracking', (req, res) => {
   console.log(req.query.id);

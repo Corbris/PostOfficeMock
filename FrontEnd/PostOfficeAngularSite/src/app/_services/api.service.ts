@@ -28,6 +28,11 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/userLogin', { params });
   }
 
+  employeeLoginAuth(id: string, password: string): Observable<any> {
+    const params = new HttpParams().set('id', id).set('password', password);
+    return this.http.get('http://localhost:3000/api/employeeLogin', { params });
+  }
+
   //tracking package with ID
   packageTracking(id: string): Observable<any> {
     const params = new HttpParams().set('id', id);
