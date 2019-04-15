@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { APIService } from '../_services/api.service';
+import { MatSnackBar } from '@angular/material';
 
 export interface Item {
   title: string;
@@ -21,26 +23,30 @@ var cartItems: CartItem[] = [];
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog,
+    public api: APIService,
+    private snackBar: MatSnackBar,) { }
 
-  items: Item[] = [
-    {title:       'Thingamajig',
-     description: 'it does something',
-     image:       'assets/shop_images/box1.jpg',
-     price:       500},
-    {title:       'Foobar',
-     description: 'it does something',
-     image:       'assets/shop_images/box2.jpg',
-     price:       500},
-    {title:       'Placeholder',
-     description: 'it does something',
-     image:       'assets/shop_images/box3.jpg',
-     price:       500},
-    {title:       'Whocares',
-     description: 'it does something',
-     image:       'assets/shop_images/box4.jpg',
-     price:       500},
-  ];
+  items: Item[] = [];
+
+
+  ngOnInit() {
+    this.api.shopProducts()
+      .subscribe((res) => {
+        for (var x in res) {
+          this.items.push(
+            {
+              title: res[x].ProductName,
+              description: res[x].Description,
+              image: 'assets/shop_images/' + res[x].ImagePath,
+              price: res[x].Price
+            }
+          );
+        }
+      });;
+  }
+
+  
 
   // cartItems: CartItem[] = [];
 
@@ -81,9 +87,6 @@ export class ShopComponent implements OnInit {
       cartItems[foundIndex].quantity += 1;
     }
     console.log(cartItems);
-  }
-
-  ngOnInit() {
   }
 
 }
