@@ -131,5 +131,42 @@ router.get('/updateUser', (req, res) => {
   });
 });
 
+router.get('/packageTransactionCC', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO Transactions (`CustomerID`, `DateOfSale`, `TotalPrice`, `FirstFourCC`, `FnameCC`, `LnameCC`, `MInitCC`, `PaymentTypeID`, `EmployeeID`) VALUES ((SELECT CustomerID FROM Customer WHERE Email = ?), ?, ?,?,?,?,?,?, ?)',
+    [req.query.Email, req.query.Date, req.query.Total, req.query.FirstFourCC, req.query.FnameCC, req.query.LnameCC, req.query.MinitCC, req.query.PaymentType, req.query.EmployeeID],
+    function (err, rows, fields) {
+
+      if (err) console.log(err);
+      res.json(rows);
+
+    });
+});
+
+router.get('/packageTransactionCash', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO Transactions (`CustomerID`, `DateOfSale`, `TotalPrice`, `PaymentTypeID`, `EmployeeID`) VALUES ((SELECT CustomerID FROM Customer WHERE Email = ?), ?,?,?,?)',
+    [req.query.Email, req.query.Date, req.query.Total, req.query.PaymentType, req.query.EmployeeID],
+    function (err, rows, fields) {
+
+      if (err) console.log(err);
+      res.json(rows);
+
+    });
+});
+
+
+router.get('/createPackage', (req, res) => {
+  console.log(req.query);
+  connection.query(' INSERT INTO Package (`TransactionID`, `CustomerID`, `SendToHouseNumber`, `SendToStreet`, `SendToZipCode`, `SendToCity`, `SendToState`, `SendToCountry`, `PackageWeight`, `PackageSize`, `SentDate`, `ETA`, `PackageStateID`, `Subscribed`) VALUES (?, (SELECT CustomerID FROM Customer WHERE Email = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
+    [req.query.transactionID, req.query.CustomerEmail, req.query.SendToHouseNumber, req.query.SendToStreet, req.query.SendToZipCode, req.query.SendToCity, req.query.SendToState, req.query.SendToCountry, req.query.PackageWeight, req.query.PackageSize, req.query.SentDate, req.query.ETA, req.query.PackageStateID],
+    function (err, rows, fields) {
+
+      if (err) console.log(err);
+      res.json(rows);
+
+    });
+});
+
 
 module.exports = router;

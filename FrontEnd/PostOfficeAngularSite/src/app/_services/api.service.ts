@@ -73,11 +73,25 @@ export class APIService {
 
   //update user
   updateUser(Fname: string, MInit: string, Lname: string, Email: string, MobileNumber: string, HouseNumber: string, Street: string, City: string, State: string, ZipCode: string, id: string): Observable<any> {
-    const params = new HttpParams().set('id', id).set('Fname', Fname).set('MInit', MInit).set('Lname', Lname).set('Email', Email).set('MobileNumber', MobileNumber).set('HouseNumber', HouseNumber).set('Street', Street).set('City', City).set('State', State).set('ZipCode', ZipCode);;
+    const params = new HttpParams().set('id', id).set('Fname', Fname).set('MInit', MInit).set('Lname', Lname).set('Email', Email).set('MobileNumber', MobileNumber).set('HouseNumber', HouseNumber).set('Street', Street).set('City', City).set('State', State).set('ZipCode', ZipCode);
     return this.http.get('http://localhost:3000/api/updateUser', { params });
   }
 
 
+  packageTransactionCash(Email: string, Date: string, Total: string, PaymentType: string, EmployeeID: string) {
+    const params = new HttpParams().set('Email', Email).set('Date', Date).set('Total', Total).set('PaymentType', PaymentType).set('EmployeeID', EmployeeID);
+    return this.http.get('http://localhost:3000/api/packageTransactionCash', { params });
+  }
+
+  packageTransactionCC(Email: string, Date: string, Total: string, FirstFourCC: string, FnameCC: string, LnameCC: string, MinitCC: string, PaymentType: string, EmployeeID: string) {
+    const params = new HttpParams().set('Email', Email).set('Date', Date).set('Total', Total).set('FirstFourCC', FirstFourCC).set('FnameCC', FnameCC).set('LnameCC', LnameCC).set('MinitCC', MinitCC).set('PaymentType', PaymentType).set('EmployeeID', EmployeeID);
+    return this.http.get('http://localhost:3000/api/packageTransactionCC', { params });
+  }
+
+  createPackage(transactionID: string, CustomerEmail: string, SendToHouseNumber: string, SendToStreet: string, SendToZipCode: string, SendToCity: string, SendToState: string, SendToCountry: string, PackageWeight: string, PackageSize: string, SentDate: string, ETA: string, PackageStateID:string) {
+    const params = new HttpParams().set('transactionID', transactionID).set('CustomerEmail', CustomerEmail).set('SendToHouseNumber', SendToHouseNumber).set('SendToStreet', SendToStreet).set('SendToZipCode', SendToZipCode).set('SendToCity', SendToCity).set('SendToState', SendToState).set('SendToCountry', SendToCountry).set('PackageWeight', PackageWeight).set('PackageSize', PackageSize).set('SentDate', SentDate).set('ETA', ETA).set('PackageStateID', PackageStateID);
+    return this.http.get('http://localhost:3000/api/createPackage', { params });
+  }
 
 }
 
