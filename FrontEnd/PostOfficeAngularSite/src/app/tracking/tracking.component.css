@@ -9,7 +9,7 @@ body {
 .alert {
   margin: auto;
   margin-bottom:30px;
-  width: 600px;
+  width: 80%;
   background-color: lightcoral;
   height: 40px;
   line-height: 40px;

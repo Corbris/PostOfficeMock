@@ -23,45 +23,85 @@ export interface AccountElement {
 
 export class UserLookupComponent implements OnInit {
   Email = new FormControl('');
-  acquiredData = false;
-  NameData: AccountElement[] = [
-    {key: "First Name",     value: "John"},
-    {key: "Middle Initial", value: "X"},
-    {key: "Last Name",      value: "Doe"},
-  ];
-  ContactData: AccountElement[] = [
-    {key: "Email",     value: "john@example.com"},
-    {key: "Mobile Phone", value: "999-999-9999"},
-    {key: "House Phone", value: "999-999-9999"},
-  ];
-  LocationData: AccountElement[] = [
-    {key: "House Number",     value: "1111"},
-    {key: "Street", value: "Somewhere Ave."},
-    {key: "City", value: "Beverly Hills"},
-    {key: "State", value: "CA"},
-    {key: "Zip Code", value: "90210"},
-  ];
 
-  MyPackages;
-  ExpectedPackages;
-  // PackagesData: PackageElement[] = [];
+  acquiredData = false;
+  NameData: AccountElement[];
+  ContactData: AccountElement[];
+  LocationData: AccountElement[];
+
+  MyPackages: any = [];
+  ExpectedPackages: any = [];
 
   displayedAccountColumns = ['key', 'value'];
   displayedPackageColumns = ['packageID', 'sendTo', 'eta', 'status'];
-  // CustomerData;
 
   constructor(public api: APIService,
-              private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
+
   }
 
-  lookupUser()
-  {
-    if (!this.acquiredData) {
-      this.snackBar.open("Could not find a customer with that email.", "Close", {
-        duration: 2000,
+  lookupUser() {
+    this.api.customerFromEmail(this.Email.value)
+      .subscribe((res) => {
+        if (res != null) {
+          this.NameData = [
+            { key: "First Name", value: res[0].Fname },
+            { key: "Middle Initial", value: res[0].MInit },
+            { key: "Last Name", value: res[0].Lname },
+          ];
+
+          this.ContactData = [
+            { key: "Email", value: res[0].Email },
+            { key: "Mobile Phone", value: res[0].MobileNumber }
+          ];
+
+          this.LocationData =[
+            { key: "House Number", value: res[0].HouseNumber},
+            { key: "Street", value: res[0].Street },
+            { key: "City", value: res[0].City },
+            { key: "State", value: res[0].State },
+            { key: "Zip Code", value: res[0].City },
+          ];
+          this.getMyPackages(res[0].CustomerID);
+        }
+        else {
+          this.snackBar.open("Could not find a customer with that email.", "Close", {
+            duration: 2000,
+          });
+        }
+
       });
-    }
+
+    //call api
+
   }
+
+  getMyPackages(id) {
+    this.api.myPackages(id)
+      .subscribe((res) => {
+        for (var x in res) {
+          this.MyPackages.push(
+            { PackageID: res[x].PackageID, SendToHouseNumber: res[x].SendToHouseNumber, SendToStreet: res[x].SendToStreet, SendToCity: res[x].SendToCity, SendToState: res[x].SendToState, ETA: res[x].ETA, State: res[x].State }
+          );
+        }
+        this.getPackagesComingToMe(id);
+    });
+
+  }
+
+
+  getPackagesComingToMe(id) {
+    this.api.packagesToAddress(id)
+      .subscribe((res) => {
+        for (var x in res) {
+          this.ExpectedPackages.push(
+            { PackageID: res[x].PackageID, SendToHouseNumber: res[x].SendToHouseNumber, SendToStreet: res[x].SendToStreet, SendToCity: res[x].SendToCity, SendToState: res[x].SendToState, ETA: res[x].ETA, State: res[x].State }
+          );
+        }
+        this.acquiredData = true;
+      });
+  }
+
 }

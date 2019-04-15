@@ -185,7 +185,7 @@ router.get('/createPackage', (req, res) => {
 //update Tracking To Location
 router.get('/updateTrackingToLocation', (req, res) => {
   console.log(req.query);
-  connection.query('INSERT INTO Tracking (`PackageID`, `TruckID`, `HandlerID`, `CurrentLocationID`, `GoingToLocationID`, `Date`) VALUES (?, ?, ?, (SELECT LocationID FROM Employee WHERE EmployeeID = ?), ?,?)', [req.query.PackageID, req.query.TruckID, req.query.HandlerID, req.query.HandlerID, req.query.GoingToLocationID, req.query.Date], function (err, rows, fields) {
+  connection.query('INSERT INTO Tracking (`PackageID`, `TruckID`, `HandlerID`, `CurrentLocationID`, `GoingToLocationID`, `Date`) VALUES (?, ?, ?, (SELECT LocationID FROM Employee WHERE EmployeeID = ?), ?, ?)', [req.query.PackageID, req.query.TruckID, req.query.HandlerID, req.query.HandlerID, req.query.GoingToLocationID, req.query.Date], function (err, rows, fields) {
     if (err) console.log(err);
     res.json(err);
   });
@@ -240,6 +240,16 @@ router.get('/updateEmployeePersonal', (req, res) => {
       res.json(err);
 
     });
+});
+
+
+//customerFromEmail
+router.get('/customerFromEmail', (req, res) => {
+  console.log(req.query);
+  connection.query('SELECT * FROM Customer WHERE Email = ?', [req.query.Email], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
 });
 
 
