@@ -13,6 +13,8 @@ export interface CartItem {
   quantity: number;
 }
 
+var cartItems: CartItem[] = [];
+
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -40,12 +42,25 @@ export class ShopComponent implements OnInit {
      price:       500},
   ];
 
-  cartItems: CartItem[] = [];
+  // cartItems: CartItem[] = [];
+
+  getCartItems() {
+    return cartItems;
+  }
+
+  getNumCartItems(): number {
+    var result = 0;
+    for (var i in cartItems) {
+      result += cartItems[i].quantity;
+    }
+    console.log(result);
+    return result;
+  }
 
   openCart(): void {
     const dialogRef = this.dialog.open(ShoppingCartDialog, {
       width: '600px',
-      data: this.cartItems
+      data: cartItems
     });
 
     dialogRef.afterClosed().subscribe(
@@ -54,18 +69,18 @@ export class ShopComponent implements OnInit {
 
   addToCart(item: Item) {
     var foundIndex;
-    let found = this.cartItems.some(
+    let found = cartItems.some(
       (element, index) => {
         foundIndex = index;
         return element.item.title == item.title;
       });
     if (!found) {
       let itemToPutInCart: CartItem = {item: item, quantity: 1};
-      this.cartItems.push(itemToPutInCart);
+      cartItems.push(itemToPutInCart);
     } else {
-      this.cartItems[foundIndex].quantity += 1;
+      cartItems[foundIndex].quantity += 1;
     }
-    console.log(this.cartItems)
+    console.log(cartItems);
   }
 
   ngOnInit() {
@@ -82,6 +97,35 @@ export class ShoppingCartDialog {
   constructor(
     public dialogRef: MatDialogRef<ShoppingCartDialog>,
     @Inject(MAT_DIALOG_DATA) public data: CartItem[]) {}
+
+  getCartItems() {
+    return cartItems;
+  }
+
+  inc(i: CartItem) {
+    var foundIndex = -1;
+    let found = cartItems.some(
+      (element, index) => {
+        foundIndex = index;
+        return element.item.title == i.item.title;
+      });
+    cartItems[foundIndex].quantity += 1;
+  }
+
+  dec(i: CartItem) {
+    var foundIndex = -1;
+    let found = cartItems.some(
+      (element, index) => {
+        foundIndex = index;
+        return element.item.title == i.item.title;
+      });
+    console.log(foundIndex);
+    cartItems[foundIndex].quantity -= 1;
+
+    if (cartItems[foundIndex].quantity == 0) {
+      cartItems.splice(foundIndex);
+    }
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

@@ -8,10 +8,22 @@
         <h2>Shop</h2>
       </div>
       <div class="col-auto">
-        <button mat-flat-button (click)="openCart()">
-          <mat-icon>shopping_cart</mat-icon>
-          Cart
+        <div *ngIf="getCartItems().length != 0; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <button mat-flat-button (click)="openCart()">
+            <mat-icon
+              matBadge={{getNumCartItems()}}
+              matBadgeOverlap="false"
+              matBadgeColor="warn">
+              shopping_cart
+            </mat-icon>
+          </button>
+        </ng-template>
+        <ng-template #elseBlock>
+          <button mat-flat-button disabled>
+            <mat-icon>shopping_cart</mat-icon>
         </button>
+        </ng-template>
       </div>
     </div>
     <div class="row row-eq-height">
