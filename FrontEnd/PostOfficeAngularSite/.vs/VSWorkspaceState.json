@@ -5,10 +5,10 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\create-package",
-    "\\src\\app\\register",
+    "\\src\\app\\login",
+    "\\src\\app\\update-tracking",
     "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\src\\app\\create-package",
+  "SelectedNode": "\\src\\app\\update-tracking",
   "PreviewInSolutionExplorer": false
 }
