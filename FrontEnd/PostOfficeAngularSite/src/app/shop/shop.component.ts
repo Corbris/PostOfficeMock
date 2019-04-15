@@ -123,7 +123,7 @@ export class ShoppingCartDialog {
     cartItems[foundIndex].quantity -= 1;
 
     if (cartItems[foundIndex].quantity == 0) {
-      cartItems.splice(foundIndex);
+      cartItems.splice(foundIndex, 1);
     }
   }
 
