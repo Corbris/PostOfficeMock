@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { APIService } from '../_services/api.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +12,13 @@ import { APIService } from '../_services/api.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  hideAlert = true;
-  errorMessage = '';
+  // errorMessage = '';
 
-  constructor(private formBuilder: FormBuilder, public auth: AuthService, public api: APIService, public myRoute: Router) { }
+  constructor(private formBuilder: FormBuilder,
+              public auth: AuthService,
+              public api: APIService,
+              public myRoute: Router,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -30,24 +34,25 @@ export class LoginComponent implements OnInit {
         .subscribe((data: {}) => {
           //we have logged in a nd API returns user ID
           if (data[0] != undefined) {
+            this.snackBar.open("Logged in.", "Close", {
+              duration: 2000,
+            });
             console.log("User: " + data[0].CustomerID + " has logged in");
             this.auth.sendToken("user", data[0].CustomerID);
             this.myRoute.navigate(["home"]);
           }
           else {
-            this.hideAlert = false;
-            this.errorMessage = "Incorect Email or Passowrd";
+            this.snackBar.open("Incorrect Email/Password!", "Close", {
+              duration: 2000,
+            });
           }
         });;
     }
     //something was missing.
     else {
-      this.errorMessage = "One of the fields is missing!";
-      this.hideAlert = false;
+      this.snackBar.open("One of the fields is missing!", "Close", {
+        duration: 2000,
+      });
     }
-  }
-
-  closeAlert() {
-    this.hideAlert = true;
   }
 }
