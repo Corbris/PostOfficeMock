@@ -50,13 +50,19 @@ router.get('/employeeLogin', (req, res) => {
 router.get('/packageTracking', (req, res) => {
   console.log(req.query.id);
   connection.query(
-    'SELECT Tracking.Date, Location.City, Location.State, Package.SendToHouseNumber, Package.SendToStreet FROM Tracking LEFT JOIN Location ON Tracking.CurrentLocationID = Location.LocationID LEFT JOIN Package ON Package.PackageID = Tracking.PackageID WHERE Tracking.PackageID = ?',[req.query.id], function (err, rows, fields) {
+    'SELECT Tracking.TruckID, Tracking.Date, Location.City, Location.State, Package.SendToHouseNumber, Package.SendToStreet FROM Tracking LEFT JOIN Location ON Tracking.CurrentLocationID = Location.LocationID LEFT JOIN Package ON Package.PackageID = Tracking.PackageID WHERE Tracking.PackageID = ?',[req.query.id], function (err, rows, fields) {
       if (err) throw err
       for (var x in rows) {
         //last in tracking
         if (x == rows.length - 1) {
-          if (rows[x].City == null) {
-            rows[x].Status = "delivered";
+          //first time in tracking, waiting to go on truck
+          if(rows[x].TruckID == null)
+          {
+            rows[x].Status = "sorting";
+          }
+          if (rows[x].City != null)
+          {
+            rows[x].Status = "delivering";
             rows[x].City = rows[x].SendToHouseNumber;
             rows[x].State = rows[x].SendToStreet;
           }
@@ -192,13 +198,23 @@ router.get('/updateTrackingToLocation', (req, res) => {
 });
 
 //update Tracking To Address
-router.get('/updateTrackingToAddress', (req, res) => {
+/*router.get('/updateTrackingToAddress', (req, res) => {
   console.log(req.query);
   connection.query('INSERT INTO Tracking (`PackageID`, `TruckID`, `HandlerID`, `CurrentLocationID`, `GoingToHouseNumber`, `GoingToStreet`, `GoingToZipCode`, `GoingToCity`, `GoingToState`, `GoingToCountry` , `Date`) VALUES (?, ?, ?, (SELECT LocationID FROM Employee WHERE EmployeeID=?),?,?,?,?,?,"USA",?)', [req.query.PackageID, req.query.TruckID, req.query.HandlerID, req.query.HandlerID, req.query.GoingToHouseNumber, req.query.GoingToStreet, req.query.GoingToZipCode, req.query.GoingToCity, req.query.GoingToState, req.query.Date], function (err, rows, fields) {
     if (err) console.log(err);
     res.json(err);
   });
+});*/
+
+router.get('/updateTrackingToAddress', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO Tracking (`PackageID`, `TruckID`, `HandlerID`, `CurrentLocationID`, `GoingToHouseNumber`, `GoingToStreet`, `GoingToZipCode`, `GoingToCity`, `GoingToState`, `GoingToCountry` , `Date`) VALUES (?, ?, ?, (SELECT LocationID FROM Employee WHERE EmployeeID = ?), (SELECT SendToHouseNumber FROM Package WHERE PackageID = ?), (SELECT SendToStreet FROM Package WHERE PackageID = ?), (SELECT SendToZipCode FROM Package WHERE PackageID = ?), (SELECT SendToCity FROM Package WHERE PackageID = ?), (SELECT SendToState FROM Package WHERE PackageID = ?), "USA",?)', [req.query.PackageID, req.query.TruckID, req.query.HandlerID, req.query.HandlerID, req.query.PackageID, req.query.PackageID, req.query.PackageID, req.query.PackageID, req.query.PackageID, req.query.Date], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(err);
+  });
 });
+
+
 
 
 //getTrucks
@@ -249,6 +265,14 @@ router.get('/customerFromEmail', (req, res) => {
   connection.query('SELECT * FROM Customer WHERE Email = ?', [req.query.Email], function (err, rows, fields) {
     if (err) console.log(err);
     res.json(rows);
+  });
+});
+
+router.get('/updateTrackingNewPackage', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO Tracking (`PackageID`, `HandlerID`, `CurrentLocationID`, `Date`) VALUES (?, ?, (SELECT LocationID FROM Employee WHERE EmployeeID = ?), ?)', [req.query.PackageID, req.query.HandlerID, req.query.HandlerID, req.query.Date], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(err);
   });
 });
 
