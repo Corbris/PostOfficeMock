@@ -3,45 +3,72 @@
 <head>
 </head>
 <body>
-
-  <h2>My Packages</h2>
-
-  <table>
-    <tr>
-      <th>Package ID</th>
-      <th>Sending To</th>
-      <th>ETA</th>
-      <th>Status</th>
-
-    </tr>
-    <tr *ngFor="let package of MyPackages">
-      <td>{{package.PackageID}}</td>
-      <td>{{package.SendToHouseNumber}} {{package.SendToStreet}} {{package.SendToCity}} {{package.SendToState}} </td>
-      <td>{{package.ETA}}</td>
-      <td>{{package.State}}</td>
-    </tr>
-  </table>
-
+  <div class="row">
+    <div class="col">
+      <mat-toolbar>
+        <span>Packages you sent</span>
+      </mat-toolbar>
+      <table mat-table [dataSource]="MyPackages" class="mat-elevation-z8">
+        <ng-container matColumnDef="packageID">
+          <th mat-header-cell *matHeaderCellDef>Package ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.PackageID}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="sendTo">
+          <th mat-header-cell *matHeaderCellDef>Send To</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.SendToHouseNumber}} {{element.SendToStreet}} {{element.SendToCity}} {{element.SendToState}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="eta">
+          <th mat-header-cell *matHeaderCellDef>ETA</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.ETA}}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.State}}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedPackageColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedPackageColumns;"></tr>
+      </table>
+    </div>
+  </div>
   <br>
-  <br>
-
-  <h2>Packages delivering to me</h2>
-
-  <table>
-    <tr>
-      <th>Package ID</th>
-      <th>Sending To</th>
-      <th>ETA</th>
-      <th>In route</th>
-
-    </tr>
-    <tr *ngFor="let package of ExpectedPackages">
-      <td>{{package.PackageID}}</td>
-      <td>{{package.SendToHouseNumber}} {{package.SendToStreet}} {{package.SendToCity}} {{package.SendToState}} </td>
-      <td>{{package.ETA}}</td>
-      <td>{{package.State}}</td>
-    </tr>
-  </table>
-
+  <div class="row">
+    <div class="col">
+      <mat-toolbar>
+        <span>Packages being delivered to you</span>
+      </mat-toolbar>
+      <table mat-table [dataSource]="ExpectedPackages" class="mat-elevation-z8">
+        <ng-container matColumnDef="packageID">
+          <th mat-header-cell *matHeaderCellDef>Package ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.PackageID}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="sendTo">
+          <th mat-header-cell *matHeaderCellDef>Send To</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.SendToHouseNumber}} {{element.SendToStreet}} {{element.SendToCity}} {{element.SendToState}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="eta">
+          <th mat-header-cell *matHeaderCellDef>ETA</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.ETA}}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.State}}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedPackageColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedPackageColumns;"></tr>
+      </table>
+    </div>
+  </div>
 </body>
 </html>
