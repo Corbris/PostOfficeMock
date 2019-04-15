@@ -1,3 +1,46 @@
-<p>
-  update-tracking works!
-</p>
+<body>
+  <h2>Scan Package</h2>
+  <mat-divider></mat-divider>
+  <br>
+  <div class="row">
+    <div class="col-auto">
+      <div class = "row">
+        <input type="text" [formControl]="PackageID"
+          placeholder="Package ID">
+      </div>
+      <br>
+      <div class = "row">
+        <input type="text" [formControl]="TruckNum"
+          placeholder="Truck Number">
+      </div>
+      <br>
+      <div class = "row">
+        <input type="text" [formControl]="HouseNumber"
+          placeholder="(Going to) House Number">
+      </div>
+      <br>
+      <div class = "row">
+        <input type="text" [formControl]="StreetAddress"
+          placeholder="(Going to) Street Address">
+      </div>
+      <br>
+      <div class = "row">
+        <input type="text" [formControl]="State"
+          placeholder="(Going to) State">
+      </div>
+      <br>
+      <div class = "row">
+        <input type="text" [formControl]="ZipCode"
+          placeholder="(Going to) Zip Code">
+      </div>
+      <br>
+
+      <div class = "row">
+        <button mat-raised-button (click)="scanPackage()">Scan</button>
+      </div>
+
+    </div>
+      <!-- <button mat-raised-button (click)="lookupUser()">Lookup</button> -->
+  </div>
+  <br>
+</body>
