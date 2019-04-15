@@ -143,6 +143,7 @@ router.get('/updateUser', (req, res) => {
   });
 });
 
+//insert transaction using CC
 router.get('/packageTransactionCC', (req, res) => {
   console.log(req.query);
   connection.query('INSERT INTO Transactions (`CustomerID`, `DateOfSale`, `TotalPrice`, `FirstFourCC`, `FnameCC`, `LnameCC`, `MInitCC`, `PaymentTypeID`, `EmployeeID`) VALUES ((SELECT CustomerID FROM Customer WHERE Email = ?), ?, ?,?,?,?,?,?, ?)',
@@ -155,6 +156,7 @@ router.get('/packageTransactionCC', (req, res) => {
     });
 });
 
+//insert transaction using Cash
 router.get('/packageTransactionCash', (req, res) => {
   console.log(req.query);
   connection.query('INSERT INTO Transactions (`CustomerID`, `DateOfSale`, `TotalPrice`, `PaymentTypeID`, `EmployeeID`) VALUES ((SELECT CustomerID FROM Customer WHERE Email = ?), ?,?,?,?)',
@@ -167,7 +169,7 @@ router.get('/packageTransactionCash', (req, res) => {
     });
 });
 
-
+//create a package
 router.get('/createPackage', (req, res) => {
   console.log(req.query);
   connection.query(' INSERT INTO Package (`TransactionID`, `CustomerID`, `SendToHouseNumber`, `SendToStreet`, `SendToZipCode`, `SendToCity`, `SendToState`, `SendToCountry`, `PackageWeight`, `PackageSize`, `SentDate`, `ETA`, `PackageStateID`, `Subscribed`) VALUES (?, (SELECT CustomerID FROM Customer WHERE Email = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
@@ -179,6 +181,43 @@ router.get('/createPackage', (req, res) => {
 
     });
 });
+
+//update Tracking To Location
+router.get('/updateTrackingToLocation', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO Tracking (`PackageID`, `TruckID`, `HandlerID`, `CurrentLocationID`, `GoingToLocationID`, `Date`) VALUES (?, ?, ?, (SELECT LocationID FROM Employee WHERE EmployeeID = ?), ?,?)', [req.query.PackageID, req.query.TruckID, req.query.HandlerID, req.query.HandlerID, req.query.GoingToLocationID, req.query.Date], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(err);
+  });
+});
+
+//update Tracking To Address
+router.get('/updateTrackingToAddress', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO Tracking (`PackageID`, `TruckID`, `HandlerID`, `CurrentLocationID`, `GoingToHouseNumber`, `GoingToStreet`, `GoingToZipCode`, `GoingToCity`, `GoingToState`, `GoingToCountry` , `Date`) VALUES (?, ?, ?, (SELECT LocationID FROM Employee WHERE EmployeeID=?),?,?,?,?,?,"USA",?)', [req.query.PackageID, req.query.TruckID, req.query.HandlerID, req.query.HandlerID, req.query.GoingToHouseNumber, req.query.GoingToStreet, req.query.GoingToZipCode, req.query.GoingToCity, req.query.GoingToState, req.query.Date], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(err);
+  });
+});
+
+
+//getTrucks
+router.get('/getTrucks', (req, res) => {
+  connection.query('SELECT TruckID FROM Trucks', function (err, rows, fields) {
+    if (err) throw err
+    res.json(rows);
+  });
+});
+
+
+//getLocations
+router.get('/getLocations', (req, res) => {
+  connection.query('SELECT LocationID FROM Location', function (err, rows, fields) {
+    if (err) throw err
+    res.json(rows);
+  });
+});
+
 
 
 module.exports = router;
