@@ -40,7 +40,7 @@
           <mat-card-actions>
             <button mat-button (click)="addToCart(item)">
               <mat-icon>add_shopping_cart</mat-icon>
-              ${{item.price}}
+              ${{item.price | number: '1.2-2'}}
             </button>
           </mat-card-actions>
           <!-- <button mat-button> -->

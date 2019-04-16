@@ -7,7 +7,7 @@
         <span>{{cartItem.quantity}} Item(s)</span>
       </p>
       <!-- TODO: Multiply price by quantity -->
-      <div>${{cartItem.item.price}}</div>
+      <div>${{cartItem.item.price | number: '1.2-2'}}</div>
       <button mat-icon-button (click)="inc(cartItem)">
         <mat-icon class="mat-18">add</mat-icon>
       </button>
