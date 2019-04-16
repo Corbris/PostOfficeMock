@@ -1,5 +1,28 @@
 <h1 mat-dialog-title>Transaction Receipt</h1>
 <div mat-dialog-content>
   <mat-list>
+    <h3 matSubheader>Payment</h3>
+    <mat-list-item>
+      {{paymentKindShortName()}}
+      <p mat-line *ngIf="data.paymentKind == 'Credit Card'">
+        {{data.ccFName}} {{data.ccMInit}} {{data.ccLName}}
+      </p>
+      <p mat-line *ngIf="data.paymentKind == 'Credit Card'">
+        {{data.ccCredit}}
+      </p>
+    </mat-list-item>
+    <h3 matSubheader>Tabulation</h3>
+    <mat-list-item>
+      <p mat-line>Cost</p>
+      <div>${{data.cost | number: '1.2-2'}}</div>
+    </mat-list-item>
+    <mat-list-item>
+      <p mat-line>Tax</p>
+      <div>${{data.tax | number: '1.2-2'}}</div>
+    </mat-list-item>
+    <mat-list-item>
+      <p mat-line>Total</p>
+      <div>${{data.total | number:'1.2-2'}}</div>
+    </mat-list-item>
   </mat-list>
 </div>

@@ -34,6 +34,7 @@ export class CreatePackageComponent implements OnInit {
   // CreditCard = false;
   PaymentKinds: string[] = ['Cash', 'Credit Card'];
   ChosenPaymentKind = 'Cash';
+  dialogData: DialogData;
 
   Cost = 0.00;
   Tax = 0.00;
@@ -59,11 +60,20 @@ export class CreatePackageComponent implements OnInit {
       ETA: ['', Validators.compose([Validators.required, Validators.minLength(2)])]
     });
 
+    // TODO: Change the min lengths?
     this.TransactionForm = this.formBuilder.group({
-      FnameCC: ['', Validators.compose([Validators.minLength(2)])],
-      MInitCC: ['', Validators.compose([Validators.minLength(2)])],
-      LnameCC: ['', Validators.compose([Validators.minLength(2)])],
-      CCnumner: ['', Validators.compose([Validators.minLength(2)])]
+      FnameCC: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(2)])],
+      MInitCC: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(1)])],
+      LnameCC: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(2)])],
+      CCnumner: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(2)])]
     });
 
     this.PackageForm.valueChanges.subscribe(() => {
@@ -75,24 +85,25 @@ export class CreatePackageComponent implements OnInit {
   }
 
   CheckOut() {
+    let paymentType = '' + ((this.ChosenPaymentKind == 'Credit Card' ? 1 : 0) + 1);
+
     if (!this.PackageForm.valid) {
-      this.snackBar.open("Same of the Package Information is Invalid", "Close", {
+      this.snackBar.open("Invalid package information", "Close", {
         duration: 8000,
       });
       return;
     }
-    else if (!this.TransactionForm.valid) {
-      this.snackBar.open("Same of the Transaction Information is Invalid", "Close", {
+    else if (paymentType == '2' && !this.TransactionForm.valid) {
+      this.snackBar.open("Invalid payment information", "Close", {
         duration: 8000,
       });
       return;
     }
 
     let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
-    let paymentType = '' + ((this.ChosenPaymentKind == 'Credit Card' ? 1 : 0) + 1);
     let total = '' + this.Total;
 
-    //cash
+    // Cash
     if (paymentType == '1') {
       this.api.packageTransactionCash(this.CustomerEmail.value, now, total, paymentType, sessionStorage.getItem("ID"))
         .subscribe((res) => {
@@ -109,11 +120,16 @@ export class CreatePackageComponent implements OnInit {
             this.TransactionID = res['insertId'];
             this.createPackage();
 
-            var dialogData: DialogData;
-            dialogData.cost = this.Cost;
-            dialogData.tax = this.Tax;
-            dialogData.total = this.Total;
-            dialogData.paymentKind = this.PaymentKind;
+            var dialogData: DialogData = {
+              cost: this.Cost,
+              tax: this.Tax,
+              total: this.Total,
+              paymentKind: this.ChosenPaymentKind,
+              ccFName: null,
+              ccLName: null,
+              ccMInit: null,
+              ccCredit: null
+            };
 
             const dialogRef = this.dialog.open(CreatePackageDialog, {
               width: '600px',
@@ -142,15 +158,16 @@ export class CreatePackageComponent implements OnInit {
             this.TransactionID = res['insertId'];
             this.createPackage();
 
-            var dialogData: DialogData;
-            dialogData.cost        = this.Cost;
-            dialogData.tax         = this.Tax;
-            dialogData.total       = this.Total;
-            dialogData.paymentKind = this.PaymentKind;
-            dialogData.ccFName     = this.TransactionForm.value.FnameCC;
-            dialogData.ccLName     = this.TransactionForm.value.LnameCC;
-            dialogData.ccMInit     = this.TransactionForm.value.MInitCC;
-            dialogData.ccCredit    = this.TransactionForm.value.CCnumner;
+            var dialogData: DialogData = {
+              cost: this.Cost,
+              tax: this.Tax,
+              total: this.Total,
+              paymentKind: this.ChosenPaymentKind,
+              ccFName: this.TransactionForm.value.FnameCC,
+              ccLName: this.TransactionForm.value.LnameCC,
+              ccMInit: this.TransactionForm.value.MInitCC,
+              ccCredit: this.TransactionForm.value.CCnumner
+            };
 
             const dialogRef = this.dialog.open(CreatePackageDialog, {
               width: '600px',
@@ -214,5 +231,13 @@ export class CreatePackageComponent implements OnInit {
 export class CreatePackageDialog {
   constructor(
     public dialogRef: MatDialogRef<CreatePackageDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData[]) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  paymentKindShortName(): string{
+    if (this.data.paymentKind == 'Credit Card') {
+      return "Card";
+    } else {
+      return "Cash";
+    }
+  }
 }
