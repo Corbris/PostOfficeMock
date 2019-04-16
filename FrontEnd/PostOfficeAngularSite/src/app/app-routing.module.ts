@@ -28,6 +28,7 @@ import { UserLookupComponent } from './user-lookup/user-lookup.component';
 import { EmployeeLookupComponent } from './employee-lookup/employee-lookup.component';
 import { LocationEmployeesComponent } from './location-employees/location-employees.component';
 import { LocationDashboardComponent } from './location-dashboard/location-dashboard.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 const routes: Routes = [
   //not logged in
@@ -39,6 +40,7 @@ const routes: Routes = [
 
   //user
   { path: 'mypackages', component: MyPackagesComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'userAccount', component: UserAccountComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'shop', component: ShopComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
 

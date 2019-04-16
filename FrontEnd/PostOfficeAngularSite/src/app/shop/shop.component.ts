@@ -90,10 +90,6 @@ export class ShopComponent implements OnInit {
       });;
   }
 
-  ngOnDestroy() {
-  }
-
-
 
   // cartItems: CartItem[] = [];
 
