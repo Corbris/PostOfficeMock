@@ -1,9 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { APIService } from '../_services/api.service';
 import { DatePipe } from '@angular/common';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+export interface DialogData {
+  title: string;
+  // description: string;
+  // image: string;
+  // price: number;
+}
 
 @Component({
   selector: 'app-create-package',
@@ -20,6 +28,8 @@ export class CreatePackageComponent implements OnInit {
   PaymentKinds: string[] = ['Cash', 'Credit Card'];
   ChosenPaymentKind = 'Cash';
 
+  dialogData: DialogData = {title: 'crapola'};
+
   Cost = 0.00;
   Tax = 0.00;
   Total = 0.00;
@@ -28,8 +38,9 @@ export class CreatePackageComponent implements OnInit {
   PackageID;
 
   constructor(private formBuilder: FormBuilder,
-    public api: APIService,
-    private snackBar: MatSnackBar) { }
+              public api: APIService,
+              private snackBar: MatSnackBar,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     this.PackageForm = this.formBuilder.group({
@@ -83,7 +94,7 @@ export class CreatePackageComponent implements OnInit {
           //we are returning the response
           if (res == null) {
             console.log(res);
-            this.snackBar.open("Failed to Create the Transaction Check the Customers Email", "Close", {
+            this.snackBar.open("Failed to perform transaction: check the customer's email", "Close", {
               duration: 8000,
             });
           }
@@ -92,8 +103,15 @@ export class CreatePackageComponent implements OnInit {
             console.log(res['insertId']);
             this.TransactionID = res['insertId'];
             this.createPackage();
-          }
 
+            const dialogRef = this.dialog.open(CreatePackageDialog, {
+              width: '600px',
+              data: this.dialogData
+            });
+
+            dialogRef.afterClosed().subscribe(
+              result => {console.log('The dialog was closed');});
+          }
         });;
     }
 
@@ -154,4 +172,16 @@ export class CreatePackageComponent implements OnInit {
       });;
   }
 
+}
+
+@Component({
+  selector: 'create-package-dialog',
+  templateUrl: './create-package-dialog.html',
+  styleUrls: ['./create-package.component.css']
+})
+
+export class CreatePackageDialog {
+  constructor(
+    public dialogRef: MatDialogRef<CreatePackageDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData[]) {}
 }

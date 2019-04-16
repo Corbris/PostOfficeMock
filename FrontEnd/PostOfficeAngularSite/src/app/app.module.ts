@@ -54,7 +54,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FindLocationComponent } from './find-location/find-location.component';
 import { ShopComponent, ShoppingCartDialog } from './shop/shop.component';
 import { UserAccountComponent } from './user-account/user-account.component';
-import { CreatePackageComponent } from './create-package/create-package.component';
+import { CreatePackageComponent, CreatePackageDialog } from './create-package/create-package.component';
 import { UpdateTrackingComponent } from './update-tracking/update-tracking.component';
 import { EmployeeAccountComponent } from './employee-account/employee-account.component';
 import { UserLookupComponent } from './user-lookup/user-lookup.component';
@@ -87,7 +87,8 @@ import { ChartsModule } from 'ng2-charts';
     EmployeeLookupComponent,
     LocationEmployeesComponent,
     LocationDashboardComponent,
-    ShoppingCartDialog
+    ShoppingCartDialog,
+    CreatePackageDialog
   ],
   imports: [
     BrowserModule,
@@ -172,7 +173,7 @@ import { ChartsModule } from 'ng2-charts';
     BrowserAnimationsModule,
     ChartsModule
   ],
-  entryComponents: [ShoppingCartDialog],
+  entryComponents: [ShoppingCartDialog, CreatePackageDialog],
   providers: [AuthService, APIService, RoleGuardService, HttpClientModule],
   bootstrap: [AppComponent]
 })
