@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild} from '@angular/core';
 import { APIService } from '../_services/api.service';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-location-employees',
@@ -20,6 +20,7 @@ export class LocationEmployeesComponent implements OnInit {
   MyEmployees: employee[] = [];
   dataSource = new MatTableDataSource<employee>(this.MyEmployees);
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   
 
@@ -53,6 +54,12 @@ export class LocationEmployeesComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 }
 
