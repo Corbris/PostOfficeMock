@@ -5,12 +5,18 @@ body {
   padding: 0px;
 }
 
+.mat-form-field {
+  font-size: 20px;
+  width: 100%;
+}
+
 .mat-elevation-z8 {
   box-shadow: none;
 }
 
 table {
   width: 100%;
+  //table-layout: fixed;
 }
 
 .example-full-width {
@@ -21,6 +27,30 @@ input {
   margin-left: 15px;
 }
 
-th{
-  width:14%;
+.EmployeID {
+  min-width: 100px;
+}
+
+.Name {
+  min-width: 180px;
+}
+
+.Role {
+  min-width: 100px;
+}
+
+.WorkEmial {
+  min-width: 200px;
+}
+
+.PersonalEmail {
+  min-width: 200px;
+}
+
+.WorkPhone {
+  min-width: 130px;
+}
+
+.PersonalPhone {
+  min-width: 130px;
 }
