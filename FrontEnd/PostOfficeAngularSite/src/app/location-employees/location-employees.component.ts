@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { APIService } from '../_services/api.service';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-location-employees',
@@ -13,40 +14,59 @@ export class LocationEmployeesComponent implements OnInit {
 
   acquiredData = false;
   displayedColumns: string[] = ['EmployeID', 'Name', 'Role', 'WorkEmail', 'PersonalEmail', 'WorkPhone', 'PersonalPhone'];
-  MyEmployees: any = [];
   RolesID = ["", "Clerk", "Sorter", "Manager", "HR", "Driver"];
   location;
 
-  constructor(public api: APIService,
-    private snackBar: MatSnackBar) { }
+  MyEmployees: employee[] = [];
+  dataSource = new MatTableDataSource<employee>(this.MyEmployees);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngOnInit() {
-    //api call;
+  
+
+  constructor(public api: APIService, private snackBar: MatSnackBar)
+  {
     this.api.employeesFromManager(sessionStorage.getItem("ID"))
       .subscribe((res) => {
-        this.update(res);
         this.location = res[0].LocationID;
+        for (var x in res) {
+          this.MyEmployees.push(
+            {
+              EmployeID: res[x].EmployeeID,
+              Fname: res[x].Fname,
+              MInit: res[x].MInit,
+              Lname: res[x].Lname,
+              Role: this.RolesID[res[x].RoleID],
+              WorkEmail: res[x].WorkEmail,
+              PersonalEmail: res[x].PersonalEmail,
+              WorkPhone: res[x].WorkPhone,
+              PersonalPhone: res[x].MobilePhone,
+            });
+        }
+        console.log(this.MyEmployees);
+        this.dataSource.paginator = this.paginator;
+        this.acquiredData = true;
       });;
   }
 
-  update(res) {
-    for (var x in res) {
-      this.MyEmployees.push(
-        {
-          EmployeID: res[x].EmployeeID,
-          Fname: res[x].Fname,
-          MInit: res[x].MInit,
-          Lname: res[x].Lname,
-          Role: this.RolesID[res[x].RoleID],
-          WorkEmail: res[x].WorkEmail,
-          PersonalEmail: res[x].PersonalEmail,
-          WorkPhone: res[x].WorkPhone,
-          PersonalPhone: res[x].MobilePhone,
-        });
-    }
-    this.acquiredData = true;
+  ngAfterViewInit() {
+    
   }
 
+  ngOnInit() {
+  }
+}
+
+
+export interface employee {
+  EmployeID: string;
+  Fname: string;
+  MInit: string;
+  Lname: string;
+  Role: string;
+  WorkEmail: string;
+  PersonalEmail: string;
+  WorkPhone: string;
+  PersonalPhone: string;
 }
 
 
