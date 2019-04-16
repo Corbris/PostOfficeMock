@@ -15,7 +15,51 @@ export interface CartItem {
   quantity: number;
 }
 
-var cartItems: CartItem[] = [];
+export var cartItems: CartItem[] = [];
+
+export function sealCart() {
+  let id = sessionStorage.getItem('ID');
+  let table = {id: id, cartItems: cartItems};
+
+  if (localStorage.getItem('carts')) {
+    var carts = JSON.parse(localStorage.getItem('carts'));
+    var found = false;
+    for (var i in carts) {
+      if (carts[i].id == id) {
+        carts[i].cartItems = cartItems;
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      carts.push(table);
+    }
+
+    localStorage.setItem('carts', JSON.stringify(carts));
+  } else {
+    localStorage.setItem('carts', JSON.stringify([table]));
+  }
+}
+
+export function unsealCart(): CartItem[] {
+  let id = sessionStorage.getItem('ID');
+  if (localStorage.getItem('carts')) {
+    console.log('attempting unseal of carts');
+    var carts = JSON.parse(localStorage.getItem('carts'));
+    for (var i in carts) {
+      if (carts[i].id == id) {
+        cartItems = carts[i].cartItems;
+        return cartItems;
+      }
+    }
+  } else {
+    console.log('no carts to unseal');
+  }
+
+  cartItems = [];
+  return cartItems;
+}
 
 @Component({
   selector: 'app-shop',
@@ -29,8 +73,8 @@ export class ShopComponent implements OnInit {
 
   items: Item[] = [];
 
-
   ngOnInit() {
+    unsealCart();
     this.api.shopProducts()
       .subscribe((res) => {
         for (var x in res) {
@@ -46,7 +90,10 @@ export class ShopComponent implements OnInit {
       });;
   }
 
-  
+  ngOnDestroy() {
+  }
+
+
 
   // cartItems: CartItem[] = [];
 
@@ -59,7 +106,6 @@ export class ShopComponent implements OnInit {
     for (var i in cartItems) {
       result += cartItems[i].quantity;
     }
-    console.log(result);
     return result;
   }
 
@@ -86,7 +132,7 @@ export class ShopComponent implements OnInit {
     } else {
       cartItems[foundIndex].quantity += 1;
     }
-    console.log(cartItems);
+    sealCart();
   }
 
 }
@@ -113,6 +159,7 @@ export class ShoppingCartDialog {
         return element.item.title == i.item.title;
       });
     cartItems[foundIndex].quantity += 1;
+    sealCart();
   }
 
   dec(i: CartItem) {
@@ -128,6 +175,7 @@ export class ShoppingCartDialog {
     if (cartItems[foundIndex].quantity == 0) {
       cartItems.splice(foundIndex, 1);
     }
+    sealCart();
   }
 
   onNoClick(): void {
