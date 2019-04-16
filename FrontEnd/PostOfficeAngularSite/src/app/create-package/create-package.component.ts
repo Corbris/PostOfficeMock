@@ -7,7 +7,14 @@ import { MatSnackBar } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 export interface DialogData {
-  title: string;
+  cost: number;
+  tax: number;
+  total: number;
+  paymentKind: string;
+  ccFName: string;
+  ccMInit: string;
+  ccLName: string;
+  ccCredit: string;
   // description: string;
   // image: string;
   // price: number;
@@ -27,8 +34,6 @@ export class CreatePackageComponent implements OnInit {
   // CreditCard = false;
   PaymentKinds: string[] = ['Cash', 'Credit Card'];
   ChosenPaymentKind = 'Cash';
-
-  dialogData: DialogData = {title: 'crapola'};
 
   Cost = 0.00;
   Tax = 0.00;
@@ -104,13 +109,20 @@ export class CreatePackageComponent implements OnInit {
             this.TransactionID = res['insertId'];
             this.createPackage();
 
+            var dialogData: DialogData;
+            dialogData.cost = this.Cost;
+            dialogData.tax = this.Tax;
+            dialogData.total = this.Total;
+            dialogData.paymentKind = this.PaymentKind;
+
             const dialogRef = this.dialog.open(CreatePackageDialog, {
               width: '600px',
-              data: this.dialogData
+              data: dialogData
             });
 
             dialogRef.afterClosed().subscribe(
-              result => {console.log('The dialog was closed');});
+              result => {console.log('The transaction dialog was closed');});
+
           }
         });;
     }
@@ -129,6 +141,25 @@ export class CreatePackageComponent implements OnInit {
             console.log("transaction was good");
             this.TransactionID = res['insertId'];
             this.createPackage();
+
+            var dialogData: DialogData;
+            dialogData.cost        = this.Cost;
+            dialogData.tax         = this.Tax;
+            dialogData.total       = this.Total;
+            dialogData.paymentKind = this.PaymentKind;
+            dialogData.ccFName     = this.TransactionForm.value.FnameCC;
+            dialogData.ccLName     = this.TransactionForm.value.LnameCC;
+            dialogData.ccMInit     = this.TransactionForm.value.MInitCC;
+            dialogData.ccCredit    = this.TransactionForm.value.CCnumner;
+
+            const dialogRef = this.dialog.open(CreatePackageDialog, {
+              width: '600px',
+              data: dialogData
+            });
+
+            dialogRef.afterClosed().subscribe(
+              result => {console.log('The transaction dialog was closed');});
+
           }
         });;
     }
