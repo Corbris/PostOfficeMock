@@ -6,14 +6,17 @@
       <p mat-line>
         <span>{{cartItem.quantity}} Item(s)</span>
       </p>
-      <!-- TODO: Multiply price by quantity -->
-      <div>${{cartItem.item.price | number: '1.2-2'}}</div>
+      <div>${{computePrice(cartItem) | number: '1.2-2'}}</div>
       <button mat-icon-button (click)="inc(cartItem)">
         <mat-icon class="mat-18">add</mat-icon>
       </button>
       <button mat-icon-button (click)="dec(cartItem)">
         <mat-icon class="mat-18">remove</mat-icon>
       </button>
+    </mat-list-item>
+    <mat-list-item>
+      <h3 mat-line><strong>Total</strong></h3>
+      <div>${{computeTotal() | number: '1.2-2'}}</div>
     </mat-list-item>
   </mat-list>
 </div>

@@ -147,8 +147,23 @@ export class ShoppingCartDialog {
     public dialogRef: MatDialogRef<ShoppingCartDialog>,
     @Inject(MAT_DIALOG_DATA) public data: CartItem[]) {}
 
+  total: number;
+
   getCartItems() {
     return cartItems;
+  }
+
+  computePrice(i: CartItem): number {
+    return i.item.price * i.quantity;
+  }
+
+  computeTotal() {
+    var total = 0;
+    for (var i in cartItems) {
+      total += this.computePrice(cartItems[i]);
+    }
+    return total;
+    // TODO: Tax?
   }
 
   inc(i: CartItem) {
