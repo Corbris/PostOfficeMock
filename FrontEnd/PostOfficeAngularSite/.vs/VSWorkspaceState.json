@@ -5,11 +5,10 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\shop",
-    "\\src\\app\\_services",
+    "\\src\\app\\location-employees",
     "\\src\\assets",
     "\\src\\assets\\shop_images"
   ],
-  "SelectedNode": "\\src\\assets\\shop_images\\478804-T0.jpg",
+  "SelectedNode": "\\src\\app\\location-employees",
   "PreviewInSolutionExplorer": false
 }
