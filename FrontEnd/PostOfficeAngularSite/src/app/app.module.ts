@@ -67,6 +67,7 @@ import { AuthService } from './_services/auth.service';
 import { APIService } from './_services/api.service';
 import { RoleGuardService } from './_services/role-guard.service';
 import { ChartsModule } from 'ng2-charts';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { ChartsModule } from 'ng2-charts';
     LocationEmployeesComponent,
     LocationDashboardComponent,
     ShoppingCartDialog,
-    CreatePackageDialog
+    CreatePackageDialog,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

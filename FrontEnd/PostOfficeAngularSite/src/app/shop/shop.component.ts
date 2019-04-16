@@ -46,7 +46,7 @@ export class ShopComponent implements OnInit {
       });;
   }
 
-  
+
 
   // cartItems: CartItem[] = [];
 
