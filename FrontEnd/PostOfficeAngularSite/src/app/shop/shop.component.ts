@@ -147,8 +147,6 @@ export class ShoppingCartDialog {
     public dialogRef: MatDialogRef<ShoppingCartDialog>,
     @Inject(MAT_DIALOG_DATA) public data: CartItem[]) {}
 
-  total: number;
-
   getCartItems() {
     return cartItems;
   }
