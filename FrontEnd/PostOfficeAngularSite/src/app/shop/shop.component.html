@@ -7,6 +7,7 @@
       <div class="col-auto mr-auto">
         <h2>Shop</h2>
       </div>
+      <br>
       <div class="col-auto">
         <div *ngIf="getCartItems().length != 0; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
@@ -26,6 +27,8 @@
         </ng-template>
       </div>
     </div>
+    <mat-divider></mat-divider>
+    <br>
     <div class="row row-eq-height">
       <div class="col-3" *ngFor="let item of items">
         <mat-card>
