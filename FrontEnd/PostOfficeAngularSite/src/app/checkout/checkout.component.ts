@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CartItem, cartItems, unsealCart, sealCart } from '../shop/shop.component';
+import { APIService } from '../_services/api.service';
 
 @Component({
   selector: 'app-checkout',
@@ -9,7 +11,11 @@ import {CartItem, cartItems, unsealCart, sealCart } from '../shop/shop.component
 
 export class CheckoutComponent implements OnInit {
 
-  constructor() { }
+  userCheckoutForm: FormGroup;
+  CustomerData;
+  UserID = sessionStorage.getItem("ID");
+
+  constructor(public api: APIService) { }
 
   getNumCartItems(): number {
     var result = 0;
@@ -37,6 +43,22 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit() {
     unsealCart();
+
+
+    this.api.customerFromID(sessionStorage.getItem("ID"))
+    .subscribe((Data) => {
+      this.CustomerData = Data[0];
+      this.userCheckoutForm.controls.Fname.setValue(this.CustomerData.Fname);
+      this.userCheckoutForm.controls.Lname.setValue(this.CustomerData.Lname);
+      this.userCheckoutForm.controls.Email.setValue(this.CustomerData.Email);
+      this.userCheckoutForm.controls.PhoneNumber.setValue(this.CustomerData.MobileNumber);
+      this.userCheckoutForm.controls.HouseNumber.setValue(this.CustomerData.HouseNumber);
+      this.userCheckoutForm.controls.Street.setValue(this.CustomerData.Street);
+      this.userCheckoutForm.controls.City.setValue(this.CustomerData.City);
+      this.userCheckoutForm.controls.State.setValue(this.CustomerData.State);
+      this.userCheckoutForm.controls.Zip.setValue(this.CustomerData.ZipCode);
+
+    });
   }
 
 }
