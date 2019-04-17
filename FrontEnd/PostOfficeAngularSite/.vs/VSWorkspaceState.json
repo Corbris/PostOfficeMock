@@ -2,12 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\server",
-    "\\server\\routes",
     "\\src",
     "\\src\\app",
+    "\\src\\app\\employeeSales-graph",
     "\\src\\app\\location-dashboard",
-    "\\src\\assets\\shop_images"
+    "\\src\\app\\location-employees",
+    "\\src\\app\\package-graph",
+    "\\src\\app\\register",
+    "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\src\\app\\location-dashboard\\location-dashboard.component.html",
+  "SelectedNode": "\\server\\routes\\api.js",
   "PreviewInSolutionExplorer": false
 }
