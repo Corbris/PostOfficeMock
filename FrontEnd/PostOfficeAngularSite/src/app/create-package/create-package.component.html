@@ -48,7 +48,12 @@
       <p>Size </p>
       <input type="text" formControlName="Size" placeholder="12x14x8">
       <p>ETA </p>
-      <input type="text" formControlName="ETA" placeholder="2019-03-25">
+      <input type="text" placeholder="yyyy-mm-dd"
+        name="dp" formControlName="ETA"
+        ngbDatepicker #d="ngbDatepicker">
+      <button mat-raised-button (click)="d.toggle()">
+        Open Calandar
+      </button>
     </div>
   </form>
 

@@ -4,8 +4,8 @@ import { APIService } from '../_services/api.service';
 import { DatePipe } from '@angular/common';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material';
+import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
 export interface DialogData {
   cost: number;
   tax: number;
@@ -42,6 +42,9 @@ export class CreatePackageComponent implements OnInit {
 
   TransactionID;
   PackageID;
+
+  minETADate = new Date();
+  etaDate;
 
   constructor(private formBuilder: FormBuilder,
               public api: APIService,
