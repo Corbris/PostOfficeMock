@@ -68,7 +68,6 @@ import { APIService } from './_services/api.service';
 import { RoleGuardService } from './_services/role-guard.service';
 import { ChartsModule } from 'ng2-charts';
 import { CheckoutComponent } from './checkout/checkout.component';
-import { PackageComponent } from './package/package.component';
 import { PackageGraphComponent } from './package-graph/package-graph.component';
 import { EmployeeSalesGraphComponent } from './employeeSales-graph/employeeSales-graph.component';
 
@@ -94,7 +93,6 @@ import { EmployeeSalesGraphComponent } from './employeeSales-graph/employeeSales
     ShoppingCartDialog,
     CreatePackageDialog,
     CheckoutComponent,
-    PackageComponent,
     PackageGraphComponent,
     EmployeeSalesGraphComponent,
   ],
