@@ -5,10 +5,9 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\location-employees",
-    "\\src\\assets",
+    "\\src\\app\\location-dashboard",
     "\\src\\assets\\shop_images"
   ],
-  "SelectedNode": "\\src\\app\\location-employees\\location-employees.component.css",
+  "SelectedNode": "\\src\\app\\location-dashboard\\location-dashboard.component.html",
   "PreviewInSolutionExplorer": false
 }
