@@ -1,0 +1,45 @@
+<div class="container" style="width:100%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.3);">
+  <h2 style="text-align:center">Location {{location}} Package Satistics</h2>
+  <div class="row">
+    <div class="col-sm-12" >
+      <canvas baseChart
+              [chartType]="'line'"
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="true"></canvas>
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <div class="col-sm-6" >
+      <div>
+        <mat-form-field class="example-full-width" style="width: 40%; margin-left:4%">
+          <input matInput [min]="minStartDate" [max]="maxStartDate" [matDatepicker]="start" placeholder="Start date" [formControl]="lableStartDate">
+          <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+          <mat-datepicker #start
+                          startView="multi-year"
+                          (yearSelected)="chosenYearHandlerStart($event)"
+                          (monthSelected)="chosenMonthHandlerStart($event, start)"
+                          panelClass="example-month-picker">
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-sm-6" style="display: block;">
+      <div>
+        <mat-form-field class="example-full-width" style="width: 40%; float: right;">
+          <input matInput [min]="minEndDate" [max]="maxEndDate" [matDatepicker]="end" placeholder="End date" [formControl]="lableEndDate">
+          <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+          <mat-datepicker #end
+                          startView="multi-year"
+                          (yearSelected)="chosenYearHandlerEnd($event)"
+                          (monthSelected)="chosenMonthHandlerEnd($event, end)"
+                          panelClass="example-month-picker">
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
