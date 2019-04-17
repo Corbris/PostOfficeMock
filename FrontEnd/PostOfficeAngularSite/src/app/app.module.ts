@@ -132,7 +132,7 @@ import { ChartsModule } from 'ng2-charts';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
   ],
   exports: [
     MatAutocompleteModule,
