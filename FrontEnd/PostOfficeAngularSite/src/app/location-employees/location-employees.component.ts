@@ -43,7 +43,6 @@ export class LocationEmployeesComponent implements OnInit {
               PersonalPhone: res[x].MobilePhone,
             });
         }
-        console.log(this.MyEmployees);
         this.dataSource.paginator = this.paginator;
         this.acquiredData = true;
       });;
