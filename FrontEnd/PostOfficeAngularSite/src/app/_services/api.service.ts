@@ -165,8 +165,16 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/shopProducts');
   }
 
+  locationPackagesDuringTime(startDate: string, endDate: string, locationID: string): Observable<any> {
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate).set('locationID', locationID);
+  return this.http.get('http://localhost:3000/api/locationPackagesDuringTime', { params });
+  }
 
-
+  locationOfEmployee(EmployeeID: string): Observable<any> {
+    console.log(EmployeeID);
+    const params = new HttpParams().set('id', EmployeeID);
+    return this.http.get('http://localhost:3000/api/locationOfEmployee', { params });
+  }
 
 }
 

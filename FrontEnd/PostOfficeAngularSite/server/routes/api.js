@@ -303,4 +303,31 @@ router.get('/shopProducts', (req, res) => {
   });
 });
 
+//Location report
+/*router.get('/locationPackagesDuringTime', (req, res) => {
+  console.log(req.query);
+  connection.query('SELECT COUNT(*) FROM Tracking WHERE (DATE(Tracking.Date) > ? AND DATE(Tracking.Date) < ?) AND Tracking.TruckID is null AND CurrentLocationID = ?', [req.query.startDate, req.query.endDate, req.query.locationID], function (err, rows, fields) { 
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});*/
+
+router.get('/locationPackagesDuringTime', (req, res) => {
+  console.log(req.query);
+  connection.query('SELECT (SELECT COUNT(*) FROM Tracking WHERE (DATE(Date) > ? AND DATE(Date) < ?) AND TruckID IS NULL AND CurrentLocationID = ?) AS originated, (SELECT COUNT(*) FROM Tracking WHERE (DATE(Date) > ? AND DATE(Date) < ?) AND TruckID IS NOT NULL AND CurrentLocationID = ?) AS passing, (SELECT COUNT(*) FROM Tracking WHERE (DATE(Date) > ? AND DATE(Date) < ?) AND TruckID IS NOT NULL AND GoingtoLocationID is null AND CurrentLocationID = ?) AS delivered',
+    [req.query.startDate, req.query.endDate, req.query.locationID, req.query.startDate, req.query.endDate, req.query.locationID, req.query.startDate, req.query.endDate, req.query.locationID], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
+
+//locationOfEmployee
+router.get('/locationOfEmployee', (req, res) => {
+  connection.query('SELECT LocationID FROM Employee WHERE EmployeeID = ?', [req.query.id], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
 module.exports = router;
