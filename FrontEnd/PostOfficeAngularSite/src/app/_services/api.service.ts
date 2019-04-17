@@ -176,6 +176,18 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/locationOfEmployee', { params });
   }
 
+
+  employeeClerksFromManager(id: string): Observable<any> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get('http://localhost:3000/api/employeeClerksFromManager', { params });
+  }
+
+
+  employeeClerksPackages(startDate: string, endDate: string, employeeID: string): Observable<any> {
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate).set('id', employeeID);
+    return this.http.get('http://localhost:3000/api/employeeClerksPackages', { params });
+  }
+
 }
 
 

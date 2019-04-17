@@ -330,4 +330,22 @@ router.get('/locationOfEmployee', (req, res) => {
   });
 });
 
+router.get('/employeeClerksFromManager', (req, res) => {
+  console.log(req.query);
+  connection.query('SELECT * FROM Employee WHERE LocationID = (SELECT LocationID FROM Employee WHERE EmployeeID = ?) AND RoleID = 1', [req.query.id], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
+
+router.get('/employeeClerksPackages', (req, res) => {
+  connection.query('SELECT COUNT(*) FROM Tracking WHERE ((Date) > ? AND (Date) < ?) AND HandlerID = ? AND TruckID is null', [req.query.startDate, req.query.endDate, req.query.id], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
+
+
 module.exports = router;
