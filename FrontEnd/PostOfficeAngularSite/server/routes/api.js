@@ -84,7 +84,7 @@ router.get('/packageTracking', (req, res) => {
 
 //myPackages by user ID Return Package ID, SendTO address, ETA, status
 router.get('/myPackages', (req, res) => {
-  connection.query('SELECT Package.PackageID, Package.SendToHouseNumber, Package.SendToStreet, Package.SendToCity, Package.SendToState, Package.ETA, `Package State`.State FROM Package LEFT JOIN `Package State` ON `Package State`.PackageStateID = Package.PackageStateID WHERE CustomerID = ?', [req.query.id], function (err, rows, fields) {
+  connection.query('SELECT Package.PackageID, Package.SendToHouseNumber, Package.SendToStreet, Package.SendToCity, Package.SendToState, Package.ETA, `Package State`.State FROM Package LEFT JOIN `Package State` ON `Package State`.PackageStateID = Package.PackageStateID WHERE CustomerID = ? ORDER BY Package.SentDate ASC', [req.query.id], function (err, rows, fields) {
     if (err) throw err
     res.json(rows);
   });
