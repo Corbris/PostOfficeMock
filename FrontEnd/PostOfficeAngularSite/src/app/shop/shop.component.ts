@@ -2,6 +2,10 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { APIService } from '../_services/api.service';
 import { MatSnackBar } from '@angular/material';
+import { Router, RouterEvent, NavigationStart, NavigationEnd, NavigationError, NavigationCancel, RoutesRecognized } from '@angular/router';
+import { of, from } from 'rxjs';
+import { tap, map, filter } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 export interface Item {
   title: string;
@@ -138,10 +142,26 @@ export class ShopComponent implements OnInit {
   templateUrl: './shopping-cart-dialog.html',
   styleUrls: ['./shop.component.css']
 })
-export class ShoppingCartDialog {
+export class ShoppingCartDialog implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ShoppingCartDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: CartItem[]) {}
+    @Inject(MAT_DIALOG_DATA) public data: CartItem[],
+    private router: Router) {}
+
+  ngOnInit() {
+    // this.router.events.pipe(
+    //   filter((event: RouterEvent) => event instanceof NavigationStart),
+    //   tap(() => this.dialogRef.close())
+    // ).subscribe();
+    // this._routerSubscription = this._router.events
+    //   .pipe(
+    //     filter((event: RouterEvent) => event instanceof NavigationStart),
+    //     filter(() => !!this.dialogRef)
+    //   )
+    //   .subscribe(() => {
+    //     this.dialogRef.close();
+    //   });
+  }
 
   getCartItems() {
     return cartItems;
@@ -191,4 +211,12 @@ export class ShoppingCartDialog {
     this.dialogRef.close();
   }
 
+  navigateToCheckout(event) {
+    // this.dialogRef.afterClosed.pipe(
+    //   tap(() => this.router.navigate(['checkout'])),
+    //   first()
+    // ).subscribe();
+    this.dialogRef.close();
+    this.router.navigate(['checkout']);
+  }
 }
