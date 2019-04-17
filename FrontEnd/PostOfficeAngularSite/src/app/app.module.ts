@@ -134,7 +134,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
   ],
   exports: [
     MatAutocompleteModule,

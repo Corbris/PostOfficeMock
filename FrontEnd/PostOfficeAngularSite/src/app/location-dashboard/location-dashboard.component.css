@@ -4,3 +4,11 @@ body {
   width: 80%;
   padding: 0px;
 }
+
+.example-month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+  display: none;
+}

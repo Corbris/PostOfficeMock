@@ -5,6 +5,9 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Schema PostOffice
 -- -----------------------------------------------------
 
@@ -49,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Customer` (
   UNIQUE INDEX `Email_UNIQUE` (`Email` ASC),
   UNIQUE INDEX `MobileNumber_UNIQUE` (`MobileNumber` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10002
+AUTO_INCREMENT = 10062
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -85,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Location` (
   PRIMARY KEY (`LocationID`),
   UNIQUE INDEX `LocationID_UNIQUE` (`LocationID` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 103
+AUTO_INCREMENT = 116
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -114,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Employee` (
   `Fname` VARCHAR(25) NOT NULL,
   `MInit` VARCHAR(1) NOT NULL,
   `Lname` VARCHAR(25) NOT NULL,
-  `MobliePhone` VARCHAR(20) NOT NULL,
+  `MobilePhone` VARCHAR(20) NOT NULL,
   `WorkPhone` VARCHAR(20) NULL DEFAULT NULL,
   `Wage` DOUBLE NOT NULL,
   `HiredOn` DATE NOT NULL,
@@ -129,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Employee` (
   `CurrentlyEmployed` TINYINT(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`EmployeeID`),
   UNIQUE INDEX `EmployeesID_UNIQUE` (`EmployeeID` ASC),
-  UNIQUE INDEX `MobliePhone_UNIQUE` (`MobliePhone` ASC),
+  UNIQUE INDEX `MobliePhone_UNIQUE` (`MobilePhone` ASC),
   UNIQUE INDEX `WorkEmail_UNIQUE` (`WorkEmail` ASC),
   UNIQUE INDEX `PersonalEmail_UNIQUE` (`PersonalEmail` ASC),
   UNIQUE INDEX `WorkPhone_UNIQUE` (`WorkPhone` ASC),
@@ -149,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Employee` (
     REFERENCES `PostOffice`.`Roles` (`RolesID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 10005
+AUTO_INCREMENT = 10013
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -174,15 +177,17 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `PostOffice`.`Online Products` (
   `ProductID` INT(11) NOT NULL AUTO_INCREMENT,
-  `ProductName` VARCHAR(20) NOT NULL,
+  `ProductName` VARCHAR(30) NOT NULL,
   `Stock` INT(10) UNSIGNED NOT NULL,
   `Price` DOUBLE UNSIGNED NOT NULL,
   `ReStockDate` DATE NOT NULL,
   `Available` TINYINT(1) NOT NULL DEFAULT '1',
   `ImagePath` VARCHAR(100) NULL DEFAULT NULL,
+  `Description` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`ProductID`),
   UNIQUE INDEX `ProductID_UNIQUE` (`ProductID` ASC))
 ENGINE = InnoDB
+AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -231,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Transactions` (
     REFERENCES `PostOffice`.`Payment type` (`typeID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 10002
+AUTO_INCREMENT = 10090
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -287,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Package` (
   `SendToCountry` VARCHAR(20) NOT NULL,
   `PackageWeight` DOUBLE UNSIGNED NOT NULL,
   `PackageSize` DOUBLE UNSIGNED NOT NULL,
-  `SentDate` DATE NOT NULL,
+  `SentDate` DATETIME NOT NULL,
   `ETA` DATE NOT NULL,
   `PackageStateID` INT(11) NOT NULL,
   `Subscribed` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
@@ -309,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Package` (
     REFERENCES `PostOffice`.`Transactions` (`TransactionID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 10002
+AUTO_INCREMENT = 10063
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -327,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Trucks` (
     REFERENCES `PostOffice`.`Employee` (`EmployeeID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 102
+AUTO_INCREMENT = 105
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -337,9 +342,9 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `PostOffice`.`Tracking` (
   `ROW` INT(11) NOT NULL AUTO_INCREMENT,
   `PackageID` INT(11) NOT NULL,
-  `TruckID` INT(11) NOT NULL,
+  `TruckID` INT(11) NULL DEFAULT NULL,
   `HandlerID` INT(11) NOT NULL,
-  `CurrentLocationID` INT(11) NOT NULL,
+  `CurrentLocationID` INT(11) NULL DEFAULT NULL,
   `GoingToHouseNumber` VARCHAR(10) NULL DEFAULT NULL,
   `GoingToStreet` VARCHAR(40) NULL DEFAULT NULL,
   `GoingToZipCode` VARCHAR(10) NULL DEFAULT NULL,
@@ -376,9 +381,52 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Tracking` (
     REFERENCES `PostOffice`.`Trucks` (`TruckID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 142
 DEFAULT CHARACTER SET = utf8;
 
+USE `PostOffice`;
+
+DELIMITER $$
+USE `PostOffice`$$
+CREATE
+DEFINER=`masterUsername`@`%`
+TRIGGER `PostOffice`.`InsertPaymentTypeNULLS`
+BEFORE INSERT ON `PostOffice`.`Transactions`
+FOR EACH ROW
+BEGIN
+  DECLARE typeName VARCHAR(15);
+  SELECT PaymentTypeName INTO typeName FROM `PostOffice`.`Payment type` WHERE typeID = NEW.PaymentTypeID;
+  IF typeName = 'cash' AND (NEW.FirstFourCC IS NOT NULL OR NEW.FnameCC IS NOT NULL OR NEW.LnameCC IS NOT NULL OR NEW.MInitCC IS NOT NULL) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'payment type is cash but got CC information';
+  END IF;
+  IF typeName != 'cash' AND (NEW.FirstFourCC IS NULL OR NEW.FnameCC IS NULL OR NEW.LnameCC IS NULL OR NEW.MInitCC IS NULL) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'payment type is not cash but some CC information is missing';
+  END IF;
+END$$
+
+USE `PostOffice`$$
+CREATE
+DEFINER=`masterUsername`@`%`
+TRIGGER `PostOffice`.`UpdatePaymentTypeNULLS`
+BEFORE UPDATE ON `PostOffice`.`Transactions`
+FOR EACH ROW
+BEGIN
+  DECLARE typeName VARCHAR(15);
+  SELECT PaymentTypeName INTO typeName FROM `PostOffice`.`Payment type` WHERE typeID = NEW.PaymentTypeID;
+  IF typeName = 'cash' AND (NEW.FirstFourCC IS NOT NULL OR NEW.FnameCC IS NOT NULL OR NEW.LnameCC IS NOT NULL OR NEW.MInitCC IS NOT NULL) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'payment type is cash but got CC information';
+  END IF;
+  IF typeName != 'cash' AND (NEW.FirstFourCC IS NULL OR NEW.FnameCC IS NULL OR NEW.LnameCC IS NULL OR NEW.MInitCC IS NULL) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'payment type is not cash yet some CC information is missing';
+  END IF;
+END$$
+
+
+DELIMITER ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
