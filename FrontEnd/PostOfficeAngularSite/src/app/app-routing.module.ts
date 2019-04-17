@@ -37,10 +37,10 @@ const routes: Routes = [
   { path: 'findlocation', component: FindLocationComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'checkout', component: CheckoutComponent },
 
   //user
   { path: 'mypackages', component: MyPackagesComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
-  { path: 'checkout', component: CheckoutComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'userAccount', component: UserAccountComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'shop', component: ShopComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
 
