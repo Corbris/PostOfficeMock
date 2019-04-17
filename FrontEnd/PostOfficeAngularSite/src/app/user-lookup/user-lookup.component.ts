@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIService } from '../_services/api.service';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { formatDate } from '@angular/common';
 
 export interface AccountElement {
   key :string;
@@ -26,7 +27,7 @@ export class UserLookupComponent implements OnInit {
   ExpectedPackages: any = [];
 
   displayedAccountColumns = ['key', 'value'];
-  displayedPackageColumns = ['packageID', 'sendTo', 'eta', 'status'];
+  displayedPackageColumns = ['packageID', 'sending To', 'ETA', 'status'];
 
   constructor(public api: APIService,
     private snackBar: MatSnackBar) { }
@@ -76,7 +77,7 @@ export class UserLookupComponent implements OnInit {
       .subscribe((res) => {
         for (var x in res) {
           this.MyPackages.push(
-            { PackageID: res[x].PackageID, SendToHouseNumber: res[x].SendToHouseNumber, SendToStreet: res[x].SendToStreet, SendToCity: res[x].SendToCity, SendToState: res[x].SendToState, ETA: res[x].ETA, State: res[x].State }
+            { PackageID: res[x].PackageID, SendToHouseNumber: res[x].SendToHouseNumber, SendToStreet: res[x].SendToStreet, SendToCity: res[x].SendToCity, SendToState: res[x].SendToState, ETA: res[x].ETA.substring(0,10), State: res[x].State }
           );
         }
         this.getPackagesComingToMe(id);
@@ -90,7 +91,7 @@ export class UserLookupComponent implements OnInit {
       .subscribe((res) => {
         for (var x in res) {
           this.ExpectedPackages.push(
-            { PackageID: res[x].PackageID, SendToHouseNumber: res[x].SendToHouseNumber, SendToStreet: res[x].SendToStreet, SendToCity: res[x].SendToCity, SendToState: res[x].SendToState, ETA: res[x].ETA, State: res[x].State }
+            { PackageID: res[x].PackageID, SendToHouseNumber: res[x].SendToHouseNumber, SendToStreet: res[x].SendToStreet, SendToCity: res[x].SendToCity, SendToState: res[x].SendToState, ETA: res[x].ETA.substring(0, 10), State: res[x].State }
           );
         }
         this.acquiredData = true;
