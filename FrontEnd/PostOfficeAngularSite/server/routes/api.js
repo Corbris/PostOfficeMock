@@ -347,5 +347,14 @@ router.get('/employeeClerksPackages', (req, res) => {
 });
 
 
+router.get('/createEmployee', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO Employee (`LocationID`, `RoleID`, `AuthID`, `Fname`, `MInit`, `Lname`, `MobilePhone`, `WorkPhone`, `Wage`, `HiredOn`, `WorkEmail`, `PersonalEmail`, `HouseNumber`, `Street`, `ZipCode`, `City`, `State`, `Country`, `CurrentlyEmployed`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"USA", ?)', [req.query.LocationID, req.query.RoleID, req.query.AuthID, req.query.Fname, req.query.MInit, req.query.Lname, req.query.MobilePhone, req.query.WorkPhone, req.query.Wage, req.query.HiredOn, req.query.WorkEmail, req.query.PersonalEmail, req.query.HouseNumber, req.query.Street, req.query.ZipCode, req.query.City, req.query.State, req.query.CurrentlyEmployed], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(err);
+  });
+});
+
+
 
 module.exports = router;

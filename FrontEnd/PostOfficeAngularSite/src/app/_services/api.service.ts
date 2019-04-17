@@ -188,6 +188,11 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/employeeClerksPackages', { params });
   }
 
+  createEmployee(LocationID: string, RoleID: string, AuthID: string, Fname: string, MInit: string, Lname: string, MobilePhone: string, Wage: string, HiredOn: string, WorkEmail: string, PersonalEmail: string, HouseNumber: string, Street: string, ZipCode: string, City: string, State: string, CurrentlyEmployed: string, WorkPhone: string): Observable<any> {
+    const params = new HttpParams().set('LocationID', LocationID).set('RoleID', RoleID).set('AuthID', AuthID).set('Fname', Fname).set('MInit', MInit).set('Lname', Lname).set('MobilePhone', MobilePhone).set('Wage', Wage).set('HiredOn', HiredOn).set('WorkEmail', WorkEmail).set('PersonalEmail', PersonalEmail).set('HouseNumber', HouseNumber).set('Street', Street).set('ZipCode', ZipCode).set('City', City).set('State', State).set('CurrentlyEmployed', CurrentlyEmployed).set('WorkPhone', WorkPhone);
+    return this.http.get('http://localhost:3000/api/createEmployee', { params });
+  }
+
 }
 
 

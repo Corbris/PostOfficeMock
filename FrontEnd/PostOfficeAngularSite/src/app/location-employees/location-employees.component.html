@@ -61,5 +61,129 @@
     <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
   </div>
 
+  <br>
+
+  <div class="row">
+    <div class="col-sm-10"></div>
+    <div class="col-sm-2">
+      <button mat-raised-button (click)="newEmployee()">Create a New Employee</button>
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <div *ngIf="newEployeeShow">
+    <form [formGroup]="EmployeeWorkDataForm">
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Name</h3>
+          <br>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="First Name" formControlName="Fname"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Middle Initial" formControlName="MInit"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Last Name" formControlName="Lname"></textarea>
+          </mat-form-field>
+        </div>
+
+        <br>
+
+
+        <div class="col-md-4">
+          <h3>Contact</h3>
+          <br>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Personal Email" formControlName="PersonalEmail"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Personal Phone Number" formControlName="PersonalPhone"></textarea>
+          </mat-form-field>
+        </div>
+
+
+        <div class="col-md-4">
+          <h3>Address</h3>
+          <br>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="House Number" formControlName="HouseNumber"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Street" formControlName="Street"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="City" formControlName="City"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="State" formControlName="State"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="ZipCode" formControlName="ZipCode"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <div class="row">
+        <div class="col-md-4">
+          <h3>About</h3>
+          <br>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Location ID" formControlName="LocationID"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Currently Employed" formControlName="CurrentlyEmployed"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="AuthLevel" formControlName="AuthLevel"></textarea>
+          </mat-form-field>
+        </div>
+
+
+        <div class="col-md-4">
+          <h3>Work Contact</h3>
+          <br>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Work Email" formControlName="WorkEmail"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Work Phone Number" formControlName="WorkPhone"></textarea>
+          </mat-form-field>
+        </div>
+
+
+        <div class="col-md-4">
+          <h3>Job</h3>
+          <br>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="RoleID" formControlName="RoleID"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Wage" formControlName="Wage"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8"></div>
+        <div class="col-sm-2">
+          <button mat-raised-button (click)="saveNewEmployee()" style="margin-right:20px; float:right;">Save This Employee</button>      
+        </div>
+        <div class="col-sm-2" >
+          <button mat-raised-button type="reset" style="margin-right:0px; float:right;">Reset</button>
+        </div>
+        </div>
+  </form>
+
+    <br>
+    <br>
+
+    
+  </div>
 
 </body>
