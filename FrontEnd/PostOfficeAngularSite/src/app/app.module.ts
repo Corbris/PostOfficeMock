@@ -41,6 +41,7 @@ import {
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { AppComponent } from './app.component';
@@ -139,6 +140,7 @@ import { EmployeeSalesGraphComponent } from './employeeSales-graph/employeeSales
     FormsModule,
     HttpClientModule,
     ChartsModule,
+    NgbModule.forRoot(),
   ],
   exports: [
     MatAutocompleteModule,
