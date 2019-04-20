@@ -87,7 +87,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="sending To">
-            <th mat-header-cell *matHeaderCellDef>sending To</th>
+            <th mat-header-cell *matHeaderCellDef>Sending To</th>
             <td mat-cell *matCellDef="let element">
               {{element.SendToHouseNumber}} {{element.SendToStreet}} {{element.SendToCity}} {{element.SendToState}}
             </td>
@@ -111,7 +111,7 @@
     <div class="row">
       <div class="col">
         <mat-toolbar>
-          <span>Packages being delivered to this customer</span>
+          <span>Packages this customer sent</span>
         </mat-toolbar>
         <table mat-table [dataSource]="ExpectedPackages" class="mat-elevation-z8">
           <ng-container matColumnDef="packageID">
@@ -129,12 +129,14 @@
           <ng-container matColumnDef="ETA">
             <th mat-header-cell *matHeaderCellDef>ETA</th>
             <td mat-cell *matCellDef="let element">
-              {{element.ETA}}</td>
+              {{element.ETA}}
+            </td>
           </ng-container>
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Status</th>
             <td mat-cell *matCellDef="let element">
-              {{element.State}}</td>
+              {{element.State}}
+            </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedPackageColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedPackageColumns;"></tr>
