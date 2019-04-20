@@ -4,10 +4,8 @@
     "\\server",
     "\\server\\routes",
     "\\src",
-    "\\src\\app",
-    "\\src\\app\\employee-lookup",
-    "\\src\\app\\location-employees"
+    "\\src\\app"
   ],
-  "SelectedNode": "\\src\\app\\employee-lookup\\employee-lookup.component.html",
+  "SelectedNode": "\\src\\app\\find-location",
   "PreviewInSolutionExplorer": false
 }
