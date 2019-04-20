@@ -84,7 +84,7 @@ router.get('/packageTracking', (req, res) => {
 
 //myPackages by user ID Return Package ID, SendTO address, ETA, status
 router.get('/myPackages', (req, res) => {
-  connection.query('SELECT Package.PackageID, Package.SendToHouseNumber, Package.SendToStreet, Package.SendToCity, Package.SendToState, Package.ETA, `Package State`.State FROM Package LEFT JOIN `Package State` ON `Package State`.PackageStateID = Package.PackageStateID WHERE CustomerID = ? ORDER BY Package.SentDate ASC', [req.query.id], function (err, rows, fields) {
+  connection.query('SELECT Package.PackageID, Package.SendToHouseNumber, Package.SendToStreet, Package.SendToCity, Package.SendToState, Package.ETA, `Package State`.State FROM Package LEFT JOIN `Package State` ON `Package State`.PackageStateID = Package.PackageStateID WHERE CustomerID = ? ORDER BY Package.SentDate DESC', [req.query.id], function (err, rows, fields) {
     if (err) throw err
     res.json(rows);
   });
@@ -93,7 +93,7 @@ router.get('/myPackages', (req, res) => {
 
 //packages going to Users ADDRESS by id RETURN Package ID, SendTO address, ETA, status
 router.get('/packagesToAddress', (req, res) => {
-  connection.query('SELECT Package.PackageID, Package.SendToHouseNumber, Package.SendToStreet, Package.SendToCity, Package.SendToState, Package.ETA, `Package State`.State FROM Package LEFT JOIN `Package State` ON `Package State`.PackageStateID = Package.PackageStateID LEFT JOIN Customer ON Package.SendToHouseNumber = Customer.HouseNumber AND Package.SendToStreet = Customer.Street AND Package.SendToZipCode = Customer.ZipCode  WHERE Customer.CustomerID = ?', [req.query.id], function (err, rows, fields) {
+  connection.query('SELECT Package.PackageID, Package.SendToHouseNumber,Package.SendToStreet, Package.SendToCity, Package.SendToState, Package.ETA, `Package State`.State FROM Package LEFT JOIN `Package State` ON `Package State`.PackageStateID = Package.PackageStateID LEFT JOIN Customer ON Package.SendToHouseNumber = Customer.HouseNumber AND Package.SendToStreet = Customer.Street AND Package.SendToZipCode = Customer.ZipCode WHERE Customer.CustomerID = ? ORDER BY Package.ETA DESC', [req.query.id], function (err, rows, fields) {
     if (err) throw err
     res.json(rows);
   });
