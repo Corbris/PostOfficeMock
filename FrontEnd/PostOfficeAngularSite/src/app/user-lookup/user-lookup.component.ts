@@ -48,7 +48,7 @@ export class UserLookupComponent implements OnInit {
 
           this.ContactData = [
             { key: "Email", value: res[0].Email },
-            { key: "Mobile Phone", value: res[0].MobileNumber }
+            { key: "Mobile Phone", value: res[0].MobileNumber.substring(0, 3) + '-' + res[0].MobileNumber.substring(3, 6) + '-' + res[0].MobileNumber.substring(6, 10)}
           ];
 
           this.LocationData =[
