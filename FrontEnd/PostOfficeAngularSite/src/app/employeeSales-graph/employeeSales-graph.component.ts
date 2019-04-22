@@ -62,6 +62,7 @@ export class EmployeeSalesGraphComponent implements OnInit {
                     .subscribe((numbers) => {
                       if (numbers != null) {
                         console.log("got numbers");
+                        console.log(numbers);
                         this.pieChartData.push((numbers[0]['COUNT(*)'])+1);
                         console.log(this.pieChartData);
                         this.showGraph = false;
