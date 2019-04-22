@@ -375,5 +375,20 @@ router.get('/orderDetails', (req, res) => {
 });
 
 
+//myPacakgeTrans
+router.get('/myPacakgeTrans', (req, res) => {
+  connection.query('SELECT * FROM `Transactions` WHERE EmployeeID IS NOT NULL AND CustomerID = ?', [req.query.id],function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
+router.get('/myOnlineTrans', (req, res) => {
+  connection.query('SELECT * FROM `Transactions` WHERE EmployeeID IS NULL AND CustomerID = ?', [req.query.id], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
 
 module.exports = router;
