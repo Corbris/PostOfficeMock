@@ -102,7 +102,7 @@ router.get('/packagesToAddress', (req, res) => {
 
 //find location based on ABS of ZipCode
 router.get('/findLocation', (req, res) => {
-  connection.query('SELECT Location.LocationID, Location.BuildingNumber, Location.ZipCode, Location.City, Location.State, Location.Hours FROM Location ORDER BY ABS(Location.ZipCode - ?) ASC', [req.query.zip], function (err, rows, fields) {
+  connection.query('SELECT Location.LocationID, Location.BuildingNumber, Location.ZipCode, Location.City, Location.State, Location.Hours FROM Location ORDER BY ABS(Location.ZipCode - ?) ASC LIMIT 5' , [req.query.zip], function (err, rows, fields) {
     if (err) throw err
     res.json(rows);
   });
