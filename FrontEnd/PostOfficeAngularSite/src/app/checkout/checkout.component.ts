@@ -62,7 +62,8 @@ export class CheckoutComponent implements OnInit {
     console.log(this.userCheckoutForm);
     //make transaction
 
-    this.api.onlineTransaction(sessionStorage.getItem("ID"), formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en'), this.userCheckoutForm.value.CCnumber.substring(0,4) ,''+this.Total, this.userCheckoutForm.value.FnameCC, this.userCheckoutForm.value.LnameCC, this.userCheckoutForm.value.MInitCC, this.userCheckoutForm.value.CardType)
+    let timeStamp = formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
+    this.api.onlineTransaction(sessionStorage.getItem("ID"), timeStamp, this.userCheckoutForm.value.CCnumber.substring(0,4) ,''+this.Total, this.userCheckoutForm.value.FnameCC, this.userCheckoutForm.value.LnameCC, this.userCheckoutForm.value.MInitCC, this.userCheckoutForm.value.CardType)
       .subscribe((res) => {
         console.log(res);
         console.log("made transaction");
