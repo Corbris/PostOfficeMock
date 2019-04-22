@@ -9,6 +9,7 @@ import { first } from 'rxjs/operators';
 
 export interface Item {
   title: string;
+  ID: string;
   description: string;
   image: string;
   price: number;
@@ -41,6 +42,8 @@ export function sealCart() {
     }
 
     localStorage.setItem('carts', JSON.stringify(carts));
+
+
   } else {
     localStorage.setItem('carts', JSON.stringify([table]));
   }
@@ -85,6 +88,7 @@ export class ShopComponent implements OnInit {
           this.items.push(
             {
               title: res[x].ProductName,
+              ID: res[x].ProductID,
               description: res[x].Description,
               image: 'assets/shop_images/' + res[x].ImagePath,
               price: res[x].Price
