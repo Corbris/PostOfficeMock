@@ -95,7 +95,7 @@ export class CheckoutComponent implements OnInit {
     //this reload page
 
     this.snackBar.open("Thanks for your purchase", "Close", {
-      duration: 3000,
+      duration: 8000,
 
     });
     
