@@ -70,10 +70,10 @@ export class CheckoutComponent implements OnInit {
         if (res != null || res != undefined) {
           console.log(res.insertId);
           for (var i in cartItems) {
-            this.api.orderDetails(cartItems[i].item.title, res.insertId, ''+cartItems[i].quantity, ''+cartItems[i].item.price)
+            this.api.orderDetails(cartItems[i].item.ID, res.insertId, ''+cartItems[i].quantity, ''+cartItems[i].item.price)
               .subscribe((res) => {
                 console.log(res);
-                console.log(cartItems[i].item.title, cartItems[i].item.price, cartItems[i].quantity);
+                console.log(cartItems[i].item.ID, cartItems[i].item.price, cartItems[i].quantity);
 
                 
               });
