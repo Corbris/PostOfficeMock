@@ -105,6 +105,7 @@ export class CreatePackageComponent implements OnInit {
 
     let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
     let total = '' + this.Total;
+    
 
     // Cash
     if (paymentType == '1') {
@@ -188,9 +189,10 @@ export class CreatePackageComponent implements OnInit {
 
 
   createPackage() {
+    let eta = '' + formatDate(new Date(this.PackageForm.value.ETA), 'yyyy-MM-dd HH:MM:SS', 'en');
     console.log("making the package");
     let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
-    this.api.createPackage(this.TransactionID, this.CustomerEmail.value, this.PackageForm.value.HouseNumber, this.PackageForm.value.Street, this.PackageForm.value.ZipCode, this.PackageForm.value.City, this.PackageForm.value.State, "USA", this.PackageForm.value.Weight, this.PackageForm.value.Size, now, this.PackageForm.value.ETA, "2")
+    this.api.createPackage(this.TransactionID, this.CustomerEmail.value, this.PackageForm.value.HouseNumber, this.PackageForm.value.Street, this.PackageForm.value.ZipCode, this.PackageForm.value.City, this.PackageForm.value.State, "USA", this.PackageForm.value.Weight, this.PackageForm.value.Size, now, eta, "2")
       .subscribe((res) => {
         if (res == null) {
           console.log("error")
