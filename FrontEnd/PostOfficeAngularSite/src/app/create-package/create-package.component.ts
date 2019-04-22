@@ -105,7 +105,7 @@ export class CreatePackageComponent implements OnInit {
 
     let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
     let total = '' + this.Total;
-    
+
 
     // Cash
     if (paymentType == '1') {
@@ -118,6 +118,8 @@ export class CreatePackageComponent implements OnInit {
               duration: 8000,
             });
           }
+          // else if (this.makeEtaDate() < new Date()) {
+          // }
           else {
             console.log("transaction was good");
             console.log(res['insertId']);
@@ -187,9 +189,17 @@ export class CreatePackageComponent implements OnInit {
 
   }
 
+  makeETADate(): Date {
+    return new Date(this.PackageForm.value.ETA.year + "-" + this.PackageForm.value.ETA.month + "-" + this.PackageForm.value.ETA.day);
+  }
+
 
   createPackage() {
-    let eta = '' + formatDate(new Date(this.PackageForm.value.ETA), 'yyyy-MM-dd HH:MM:SS', 'en');
+    console.log(this.PackageForm.value.ETA);
+    console.log(this.makeETADate());
+    let eta = '' + formatDate(this.makeETADate(), 'yyyy-MM-dd HH:MM:SS', 'en');
+    // let eta = '' + this.PackageForm.value.ETA.year + "-" + this.PackageForm.value.ETA.month + "-" + this.PackageForm.value.ETA.day + " 01:01:01";
+    console.log(eta);
     console.log("making the package");
     let now = '' + formatDate(new Date(), 'yyyy-MM-dd HH:MM:SS', 'en');
     this.api.createPackage(this.TransactionID, this.CustomerEmail.value, this.PackageForm.value.HouseNumber, this.PackageForm.value.Street, this.PackageForm.value.ZipCode, this.PackageForm.value.City, this.PackageForm.value.State, "USA", this.PackageForm.value.Weight, this.PackageForm.value.Size, now, eta, "2")
