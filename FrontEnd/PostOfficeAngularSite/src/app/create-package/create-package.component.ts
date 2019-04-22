@@ -96,6 +96,12 @@ export class CreatePackageComponent implements OnInit {
       });
       return;
     }
+    else if (this.makeETADate() < new Date()) {
+      this.snackBar.open("ETA Date already elapsed!", "Close", {
+        duration: 8000,
+      });
+      return;
+    }
     else if (paymentType == '2' && !this.TransactionForm.valid) {
       this.snackBar.open("Invalid payment information", "Close", {
         duration: 8000,
@@ -117,10 +123,7 @@ export class CreatePackageComponent implements OnInit {
             this.snackBar.open("Failed to perform transaction: check the customer's email", "Close", {
               duration: 8000,
             });
-          }
-          // else if (this.makeEtaDate() < new Date()) {
-          // }
-          else {
+          } else {
             console.log("transaction was good");
             console.log(res['insertId']);
             this.TransactionID = res['insertId'];
