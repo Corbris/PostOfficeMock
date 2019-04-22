@@ -193,6 +193,16 @@ export class APIService {
     return this.http.get('http://localhost:3000/api/createEmployee', { params });
   }
 
+  onlineTransaction(CustomerID: string, Date: string, FirstFourCC:string ,TotalPrice:string, FnameCC:string, LnameCC:string, MInitCC:string, PymentType:string): Observable<any> {
+    const params = new HttpParams().set('CustomerID', CustomerID).set('Date', Date).set('FirstFourCC', FirstFourCC).set('TotalPrice', TotalPrice).set('FnameCC', FnameCC).set('LnameCC', LnameCC).set('MInitCC', MInitCC).set('PymentType', PymentType);
+    return this.http.get('http://localhost:3000/api/onlineTransaction', { params });
+  }
+
+  orderDetails(ProductName: string, TransactionID: string, Quantity: string, UnitPrice: string): Observable<any> {
+    const params = new HttpParams().set('ProductName', ProductName).set('TransactionID', TransactionID).set('Quantity', Quantity).set('UnitPrice', UnitPrice);
+    return this.http.get('http://localhost:3000/api/orderDetails', { params });
+  }
+
 }
 
 

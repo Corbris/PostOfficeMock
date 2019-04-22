@@ -340,7 +340,7 @@ router.get('/employeeClerksFromManager', (req, res) => {
 
 
 router.get('/employeeClerksPackages', (req, res) => {
-  connection.query('SELECT COUNT(*) FROM Tracking WHERE ((Date) > ? AND (Date) < ?) AND HandlerID = ? AND TruckID is null', [req.query.startDate, req.query.endDate, req.query.id], function (err, rows, fields) {
+  connection.query('SELECT COUNT(*) FROM Tracking WHERE Date BETWEEN ? AND ? AND HandlerID = ? AND TruckID is null', [req.query.startDate, req.query.endDate, req.query.id], function (err, rows, fields) {
     if (err) console.log(err);
     res.json(rows);
   });
@@ -353,6 +353,25 @@ router.get('/createEmployee', (req, res) => {
     if (err) console.log(err);
     res.json(err);
   });
+});
+
+router.get('/onlineTransaction', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO Transactions (`CustomerID`, `DateOfSale`, `FirstFourCC`, `TotalPrice`, `FnameCC`, `LnameCC`, `MInitCC`, `PaymentTypeID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [req.query.CustomerID, req.query.Date, req.query.FirstFourCC, req.query.TotalPrice, req.query.FnameCC, req.query.LnameCC, req.query.MInitCC, req.query.PymentType], function (err, rows, fields) {
+    if (err) console.log(err);
+    res.json(rows);
+  });
+});
+
+//orderDetails
+router.get('/orderDetails', (req, res) => {
+  console.log(req.query);
+  connection.query('INSERT INTO `Order Details` (`ProductID`, `TransactionID`, `Quantity`, `UnitPrice`) VALUES ((SELECT ProductID FROM `Online Products` WHERE ProductName = ?), ?, ?, ?)',
+    [req.query.ProductName, req.query.TransactionID, req.query.Quantity, req.query.UnitPrice], function (err, rows, fields) {
+      if (err) console.log(err);
+      res.json(rows);
+    });
 });
 
 
