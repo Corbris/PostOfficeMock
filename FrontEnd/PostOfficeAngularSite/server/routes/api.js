@@ -367,7 +367,7 @@ router.get('/onlineTransaction', (req, res) => {
 //orderDetails
 router.get('/orderDetails', (req, res) => {
   console.log(req.query);
-  connection.query('INSERT INTO `Order Details` (`ProductID`, `TransactionID`, `Quantity`, `UnitPrice`) VALUES ((SELECT ProductID FROM `Online Products` WHERE ProductName = ?), ?, ?, ?)',
+  connection.query('INSERT INTO `Order Details` (`ProductID`, `TransactionID`, `Quantity`, `UnitPrice`) VALUES (?, ?, ?, ?)',
     [req.query.ProductName, req.query.TransactionID, req.query.Quantity, req.query.UnitPrice], function (err, rows, fields) {
       if (err) console.log(err);
       res.json(rows);
