@@ -4,8 +4,10 @@
     "\\server",
     "\\server\\routes",
     "\\src",
-    "\\src\\app"
+    "\\src\\app",
+    "\\src\\app\\employee-lookup",
+    "\\src\\app\\employeeSales-graph"
   ],
-  "SelectedNode": "\\src\\app\\find-location",
+  "SelectedNode": "\\server\\routes\\api.js",
   "PreviewInSolutionExplorer": false
 }
