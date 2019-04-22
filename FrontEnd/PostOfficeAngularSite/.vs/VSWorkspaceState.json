@@ -5,9 +5,12 @@
     "\\server\\routes",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\employee-lookup",
-    "\\src\\app\\employeeSales-graph"
+    "\\src\\app\\checkout",
+    "\\src\\app\\my-packages",
+    "\\src\\app\\shop",
+    "\\src\\app\\transactions",
+    "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\server\\routes\\api.js",
+  "SelectedNode": "\\src\\app\\transactions\\transactions.component.ts",
   "PreviewInSolutionExplorer": false
 }
