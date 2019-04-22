@@ -71,6 +71,7 @@ import { ChartsModule } from 'ng2-charts';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { PackageGraphComponent } from './package-graph/package-graph.component';
 import { EmployeeSalesGraphComponent } from './employeeSales-graph/employeeSales-graph.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { EmployeeSalesGraphComponent } from './employeeSales-graph/employeeSales
     CheckoutComponent,
     PackageGraphComponent,
     EmployeeSalesGraphComponent,
+    TransactionsComponent,
   ],
   imports: [
     BrowserModule,

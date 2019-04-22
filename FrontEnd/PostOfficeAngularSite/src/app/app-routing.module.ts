@@ -15,6 +15,7 @@ import { RegisterComponent } from './register/register.component';
 import { MyPackagesComponent } from './my-packages/my-packages.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { ShopComponent } from './shop/shop.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 //employee
 import { CreatePackageComponent } from './create-package/create-package.component';
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'userAccount', component: UserAccountComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'shop', component: ShopComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'checkout', component: CheckoutComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
+  { path: 'transactions', component: TransactionsComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
 
   //employee
   { path: 'shipPackage', component: CreatePackageComponent, canActivate: [RoleGuard], data: { expectedRole: ['employee'] } },
