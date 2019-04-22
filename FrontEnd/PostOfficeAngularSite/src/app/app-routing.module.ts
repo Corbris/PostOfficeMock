@@ -38,14 +38,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
  
-
-
   //user
   { path: 'mypackages', component: MyPackagesComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'userAccount', component: UserAccountComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'shop', component: ShopComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
   { path: 'checkout', component: CheckoutComponent, canActivate: [RoleGuard], data: { expectedRole: ['user'] } },
-
 
   //employee
   { path: 'shipPackage', component: CreatePackageComponent, canActivate: [RoleGuard], data: { expectedRole: ['employee'] } },
