@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { APIService } from '../_services/api.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+export interface DialogData {
+  PackageID: string;
+  SentDate: string;
+}
 
 @Component({
   selector: 'app-transactions',
@@ -14,9 +20,19 @@ export class TransactionsComponent implements OnInit {
 
   displayedPackageColumns = ['TransactionID', 'SaleDate', 'Cost', 'PaymentType', 'EmployeeID'];
   displayedPackageColumnsOnline = ['TransactionID', 'SaleDate','Cost', 'PaymentType', 'EmployeeID'];
-  constructor(public api: APIService) { }
+  constructor(public api: APIService, public dialog: MatDialog) { }
 
+  openDialog(event){
+    console.log(event);
+    const dialogRef = this.dialog.open(TransactionDialog, {
+      width: '400px',
+      data: { PackageID: event, SentDate: "2019-04-22" }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
   ngOnInit() {
     var data = this.api.myPacakgeTrans(sessionStorage.getItem("ID"))
@@ -43,6 +59,25 @@ export class TransactionsComponent implements OnInit {
             }
           }
         });;
+  }
+
+}
+
+
+
+
+@Component({
+  selector: 'transactions-dialog',
+  templateUrl: 'transactions-dialog.html',
+})
+export class TransactionDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<TransactionDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }
