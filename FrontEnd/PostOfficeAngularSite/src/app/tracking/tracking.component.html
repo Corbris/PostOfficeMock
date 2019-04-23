@@ -22,7 +22,7 @@
         <th>Status</th>
       </tr>
       <tr *ngFor="let track of Response">
-        <td>{{track.Date | slice:0:10}}</td>
+        <td>{{track.Date | date:'short'}}</td>
         <td>{{track.City}} {{track.State}}</td>
         <td>{{track.Status}}</td>
       </tr>
