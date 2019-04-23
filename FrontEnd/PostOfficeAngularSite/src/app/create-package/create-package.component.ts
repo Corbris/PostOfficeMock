@@ -43,9 +43,6 @@ export class CreatePackageComponent implements OnInit {
   TransactionID;
   PackageID;
 
-  etaDate;
-  etaTime;
-
   constructor(private formBuilder: FormBuilder,
               public api: APIService,
               private snackBar: MatSnackBar,
