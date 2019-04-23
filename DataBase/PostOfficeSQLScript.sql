@@ -47,12 +47,13 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Customer` (
   `City` VARCHAR(20) NOT NULL,
   `State` VARCHAR(20) NOT NULL,
   `Country` VARCHAR(20) NOT NULL,
+  `TotalPackagesSent` INT(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`CustomerID`, `Email`),
   UNIQUE INDEX `CustomerID_UNIQUE` (`CustomerID` ASC),
   UNIQUE INDEX `Email_UNIQUE` (`Email` ASC),
   UNIQUE INDEX `MobileNumber_UNIQUE` (`MobileNumber` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10062
+AUTO_INCREMENT = 10124
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -70,6 +71,20 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`CustomerLogin` (
     REFERENCES `PostOffice`.`Customer` (`Email`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `PostOffice`.`Emails_to_send`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `PostOffice`.`Emails_to_send` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `mTo` VARCHAR(128) NOT NULL,
+  `email_sent` BIT(1) NULL DEFAULT b'0',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 10440
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -152,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Employee` (
     REFERENCES `PostOffice`.`Roles` (`RolesID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 10013
+AUTO_INCREMENT = 10097
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -178,7 +193,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `PostOffice`.`Online Products` (
   `ProductID` INT(11) NOT NULL AUTO_INCREMENT,
   `ProductName` VARCHAR(30) NOT NULL,
-  `Stock` INT(10) UNSIGNED NOT NULL,
+  `Stock` INT(10) NOT NULL,
   `Price` DOUBLE UNSIGNED NOT NULL,
   `ReStockDate` DATE NOT NULL,
   `Available` TINYINT(1) NOT NULL DEFAULT '1',
@@ -200,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Payment type` (
   PRIMARY KEY (`typeID`),
   UNIQUE INDEX `Name_UNIQUE` (`PaymentTypeName` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -236,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Transactions` (
     REFERENCES `PostOffice`.`Payment type` (`typeID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 10090
+AUTO_INCREMENT = 10532
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -314,7 +329,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Package` (
     REFERENCES `PostOffice`.`Transactions` (`TransactionID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 10063
+AUTO_INCREMENT = 10455
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -332,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Trucks` (
     REFERENCES `PostOffice`.`Employee` (`EmployeeID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 105
+AUTO_INCREMENT = 119
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -353,6 +368,7 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Tracking` (
   `GoingToCountry` VARCHAR(20) NULL DEFAULT NULL,
   `GoingToLocationID` INT(11) NULL DEFAULT NULL,
   `Date` DATETIME NOT NULL,
+  `Delivered` TINYINT(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ROW`),
   UNIQUE INDEX `ROW_UNIQUE` (`ROW` ASC),
   INDEX `fk_Tracking_Package1` (`PackageID` ASC),
@@ -381,48 +397,164 @@ CREATE TABLE IF NOT EXISTS `PostOffice`.`Tracking` (
     REFERENCES `PostOffice`.`Trucks` (`TruckID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 142
+AUTO_INCREMENT = 1462
 DEFAULT CHARACTER SET = utf8;
 
+
+-- -----------------------------------------------------
+-- Table `PostOffice`.`tbl_system_mail_pickup`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `PostOffice`.`tbl_system_mail_pickup` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `mFrom` VARCHAR(128) NOT NULL DEFAULT 'noreplyccms@YourDomain.co.uk',
+  `mTo` VARCHAR(128) NOT NULL,
+  `mCC` VARCHAR(128) NULL DEFAULT NULL,
+  `mBCC` VARCHAR(128) NULL DEFAULT NULL,
+  `mSubject` VARCHAR(254) NULL DEFAULT NULL,
+  `mBody` LONGTEXT NULL DEFAULT NULL,
+  `added_by` VARCHAR(36) NULL DEFAULT NULL,
+  `updated_by` VARCHAR(36) NULL DEFAULT NULL,
+  `added_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `email_sent` BIT(1) NULL DEFAULT b'0',
+  `send_tried` INT(11) NULL DEFAULT '0',
+  `send_result` TEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+USE `PostOffice` ;
+
+-- -----------------------------------------------------
+-- function daterange
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `PostOffice`$$
+CREATE DEFINER=`masterUsername`@`%` FUNCTION `daterange`(startDate VARCHAR(10), endDate VARCHAR(10)) RETURNS varchar(255) CHARSET utf8
+BEGIN
+  DECLARE numrange INT;
+  DECLARE result VARCHAR(255);
+  DECLARE x INT;
+  SET numrange = (MONTH(endDate) - MONTH(startDate));
+  SET x = 1;
+  WHILE x <= numrange DO
+	SELECT COUNT(*) INTO result FROM Tracking WHERE (Tracking.Date < endDate AND Tracking.Date < endDate) AND Tracking.TruckID is null;
+  END WHILE;
+  RETURN result;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- function isodd
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `PostOffice`$$
+CREATE DEFINER=`masterUsername`@`%` FUNCTION `isodd`(input_number int) RETURNS int(11)
+BEGIN
+        DECLARE v_isodd INT;
+        IF MOD(input_number,2)=0 THEN
+                SET v_isodd=FALSE;
+        ELSE
+                SET v_isodd=TRUE;
+        END IF;
+        RETURN(v_isodd);
+END$$
+
+DELIMITER ;
 USE `PostOffice`;
 
 DELIMITER $$
 USE `PostOffice`$$
 CREATE
 DEFINER=`masterUsername`@`%`
-TRIGGER `PostOffice`.`InsertPaymentTypeNULLS`
-BEFORE INSERT ON `PostOffice`.`Transactions`
+TRIGGER `PostOffice`.`Customer_AFTER_INSERT`
+AFTER INSERT ON `PostOffice`.`Customer`
 FOR EACH ROW
 BEGIN
-  DECLARE typeName VARCHAR(15);
-  SELECT PaymentTypeName INTO typeName FROM `PostOffice`.`Payment type` WHERE typeID = NEW.PaymentTypeID;
-  IF typeName = 'cash' AND (NEW.FirstFourCC IS NOT NULL OR NEW.FnameCC IS NOT NULL OR NEW.LnameCC IS NOT NULL OR NEW.MInitCC IS NOT NULL) THEN
-    SIGNAL SQLSTATE '45000'
-    SET MESSAGE_TEXT = 'payment type is cash but got CC information';
-  END IF;
-  IF typeName != 'cash' AND (NEW.FirstFourCC IS NULL OR NEW.FnameCC IS NULL OR NEW.LnameCC IS NULL OR NEW.MInitCC IS NULL) THEN
-    SIGNAL SQLSTATE '45000'
-    SET MESSAGE_TEXT = 'payment type is not cash but some CC information is missing';
-  END IF;
+	IF 
+		(SELECT COUNT(*) 
+			FROM CustomerLogin 
+				WHERE NEW.Email = CustomerLogin.CustomerEmail) = 0 
+    
+    THEN
+		INSERT INTO `PostOffice`.`CustomerLogin`
+		(`CustomerEmail`,`CustomerPassword`)
+		VALUES
+		(NEW.Email, 'qwert');
+	END IF;
 END$$
 
 USE `PostOffice`$$
 CREATE
 DEFINER=`masterUsername`@`%`
-TRIGGER `PostOffice`.`UpdatePaymentTypeNULLS`
-BEFORE UPDATE ON `PostOffice`.`Transactions`
+TRIGGER `PostOffice`.`Employee_AFTER_INSERT`
+AFTER INSERT ON `PostOffice`.`Employee`
 FOR EACH ROW
 BEGIN
-  DECLARE typeName VARCHAR(15);
-  SELECT PaymentTypeName INTO typeName FROM `PostOffice`.`Payment type` WHERE typeID = NEW.PaymentTypeID;
-  IF typeName = 'cash' AND (NEW.FirstFourCC IS NOT NULL OR NEW.FnameCC IS NOT NULL OR NEW.LnameCC IS NOT NULL OR NEW.MInitCC IS NOT NULL) THEN
-    SIGNAL SQLSTATE '45000'
-    SET MESSAGE_TEXT = 'payment type is cash but got CC information';
-  END IF;
-  IF typeName != 'cash' AND (NEW.FirstFourCC IS NULL OR NEW.FnameCC IS NULL OR NEW.LnameCC IS NULL OR NEW.MInitCC IS NULL) THEN
-    SIGNAL SQLSTATE '45000'
-    SET MESSAGE_TEXT = 'payment type is not cash yet some CC information is missing';
-  END IF;
+    IF 
+		(SELECT COUNT(*) 
+			FROM EmployeeLogin 
+				WHERE NEW.EmployeeID = EmployeeLogin.EmployeeID) = 0 
+    
+    THEN
+		INSERT INTO `PostOffice`.`EmployeeLogin`
+		(`EmployeeID`,`EmployeePassword`)
+		VALUES
+		(NEW.EmployeeID, 'qwert');
+	END IF;
+END$$
+
+USE `PostOffice`$$
+CREATE
+DEFINER=`masterUsername`@`%`
+TRIGGER `PostOffice`.`Order Details_AFTER_INSERT`
+AFTER INSERT ON `PostOffice`.`Order Details`
+FOR EACH ROW
+BEGIN
+	UPDATE `Online Products`
+	SET Stock = (Stock - NEW.Quantity)
+    WHERE ProductID = NEW.ProductID;
+    
+    IF (SELECT Stock FROM `Online Products` WHERE ProductID = NEW.ProductID) <= 0 THEN
+		UPDATE `Online Products`
+		SET Available = 0
+		WHERE ProductID = NEW.ProductID;
+	END IF;
+END$$
+
+USE `PostOffice`$$
+CREATE
+DEFINER=`masterUsername`@`%`
+TRIGGER `PostOffice`.`IncrementTotalPackagesSent`
+BEFORE INSERT ON `PostOffice`.`Package`
+FOR EACH ROW
+BEGIN
+#	update Customer
+#   set TotalPackagesSent = TotalPackagesSent + 1
+#   where Customer.CustomerID = NEW.CustomerID;
+END$$
+
+USE `PostOffice`$$
+CREATE
+DEFINER=`masterUsername`@`%`
+TRIGGER `PostOffice`.`Package_AFTER_UPDATE`
+AFTER UPDATE ON `PostOffice`.`Package`
+FOR EACH ROW
+BEGIN
+IF 
+		NEW.PackageStateID <> OLD.PackageStateID
+THEN
+    INSERT INTO `PostOffice`.`Emails_to_send`
+		(`CustomerID`)
+		SELECT CustomerID FROM PostOffice.Package WHERE OLD.CustomerID = Package.CustomerID;
+	INSERT INTO `PostOffice`.`Emails_to_send`
+		(`mTo`)
+        SELECT Email FROM PostOffice.Customer WHERE `CustomerID` = Package.CustomerID;
+	END IF;
 END$$
 
 
