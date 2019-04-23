@@ -3,7 +3,7 @@
 
 ## Website
 
-Here is the website for Group 13 (Post Office) for the Monday-Wednesday 5:30-7:00 class: https://www.cougarship.com
+Here is the website for Group 13 (Post Office) for the Monday-Wednesday 5:30-7:00 class: http://www.cougarship.com
 
 You can register to make a normal (customer) user account. Alternatively, you can view one of the customer accounts (has packages in it) with this login:
 
