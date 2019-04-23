@@ -43,9 +43,6 @@ export class CreatePackageComponent implements OnInit {
   TransactionID;
   PackageID;
 
-  minETADate = new Date();
-  etaDate;
-
   constructor(private formBuilder: FormBuilder,
               public api: APIService,
               private snackBar: MatSnackBar,
@@ -60,7 +57,8 @@ export class CreatePackageComponent implements OnInit {
       ZipCode: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
       Weight: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       Size: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
-      ETA: ['', Validators.compose([Validators.required, Validators.minLength(2)])]
+      ETA: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      ETATime: ['', Validators.compose([Validators.required, Validators.minLength(2)])]
     });
 
     // TODO: Change the min lengths?
@@ -193,7 +191,7 @@ export class CreatePackageComponent implements OnInit {
   }
 
   makeETADate(): Date {
-    return new Date(this.PackageForm.value.ETA.year + "-" + this.PackageForm.value.ETA.month + "-" + this.PackageForm.value.ETA.day);
+    return new Date(this.PackageForm.value.ETA.year + "-" + this.PackageForm.value.ETA.month + "-" + this.PackageForm.value.ETA.day + "T" + this.PackageForm.value.ETATime);
   }
 
 
