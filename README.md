@@ -10,16 +10,19 @@ You can register to make a normal (customer) user account. Alternatively, you ca
 ## Logins
 
 Email: email@email.com
+
 Password: user123
 
 Here are the credentials for one of the employee user accounts:
 
 Email: 10003
+
 Password: employee123
 
 Here are the credentials for the manager:
 
 Email: 10004
+
 Password: e
 
 ## FrontEnd Framework
@@ -37,7 +40,11 @@ https://github.com/Corbris/PostOfficeMock/blob/master/SQLDump/db_dump_apr22_2043
 ## Team 13
 
 Aaron Rohan
+
 Kevin Lucas
+
 Anicia Palos
+
 Jacques Massa
+
 Brandon Lam
